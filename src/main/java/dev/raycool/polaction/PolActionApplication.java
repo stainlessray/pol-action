@@ -31,13 +31,14 @@ public class PolActionApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		String googleApiKey = "";
-		String address = "19977";
+		String googleApiKey = "AIzaSyDinVm8uECIpk9r2lY8W64KTME47Kq6KCQ";
+		String address = "39.674768, -75.6592079";
 		String formattedGoogleApiUrl = String.format("https://www.googleapis.com/civicinfo/v2/representatives/?&address=%s&includeOffices=true&key=%s", address, googleApiKey);
 
 		ResponseEntity<OfficialsResponse> response = restTemplate.getForEntity(formattedGoogleApiUrl, OfficialsResponse.class);
 
 		PoliticalOfficial[] allOfficials = response.getBody().getOfficials();
+		logger.info("\n" + "++++++++++++++++++++++++++++++++" + "\n");
 		for(PoliticalOfficial politicalOfficial : allOfficials) {
 			logger.info(politicalOfficial.toString());
 			logger.info(politicalOfficial.getName());
