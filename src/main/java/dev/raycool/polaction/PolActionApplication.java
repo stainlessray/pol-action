@@ -1,6 +1,6 @@
 package dev.raycool.polaction;
 
-import dev.raycool.polaction.model.OfficialsResponse;
+import dev.raycool.polaction.model.PoliticalOfficialsResponse;
 import dev.raycool.polaction.model.PoliticalOfficial;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +11,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.Arrays;
 
 @SpringBootApplication
 public class PolActionApplication implements CommandLineRunner {
@@ -31,11 +33,11 @@ public class PolActionApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		String googleApiKey = "AIzaSyDinVm8uECIpk9r2lY8W64KTME47Kq6KCQ";
+		String googleApiKey = "AIzaSyB-tUdCgR_eX1pDG2E2xIVDTqPZzto90ac";
 		String address = "39.674768, -75.6592079";
 		String formattedGoogleApiUrl = String.format("https://www.googleapis.com/civicinfo/v2/representatives/?&address=%s&includeOffices=true&key=%s", address, googleApiKey);
 
-		ResponseEntity<OfficialsResponse> response = restTemplate.getForEntity(formattedGoogleApiUrl, OfficialsResponse.class);
+		ResponseEntity<PoliticalOfficialsResponse> response = restTemplate.getForEntity(formattedGoogleApiUrl, PoliticalOfficialsResponse.class);
 
 		PoliticalOfficial[] allOfficials = response.getBody().getOfficials();
 		logger.info("\n" + "++++++++++++++++++++++++++++++++" + "\n");
@@ -44,7 +46,14 @@ public class PolActionApplication implements CommandLineRunner {
 			logger.info(politicalOfficial.getName());
 			logger.info(politicalOfficial.getAddress()[0].getLine1());
 			logger.info(politicalOfficial.getAddress()[0].getCity());
-			logger.info(politicalOfficial.getParty() + "\n");
+			logger.info(politicalOfficial.getAddress()[0].getState());
+			logger.info(politicalOfficial.getParty());
+			logger.info(politicalOfficial.getPhotoUrl());
+			logger.info(politicalOfficial.getPhones()[0].getPhone());
+			if (politicalOfficial.getUrls() != null) {
+				logger.info(politicalOfficial.getUrls()[0].getUrl());
+			}
+			logger.info("\n");
 		}
 	}
 }

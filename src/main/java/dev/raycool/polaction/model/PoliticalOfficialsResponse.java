@@ -3,7 +3,7 @@ package dev.raycool.polaction.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class OfficialsResponse {
+public class PoliticalOfficialsResponse {
     private PoliticalOfficial[] officials;
 
     public PoliticalOfficial[] getOfficials() {

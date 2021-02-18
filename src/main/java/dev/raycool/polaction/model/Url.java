@@ -6,6 +6,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Url {
     private String url;
 
+    public Url(String url) {
+        this.url = url;
+    }
+
     public Url() {
     }
 

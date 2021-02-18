@@ -2,14 +2,16 @@ package dev.raycool.polaction.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.util.Arrays;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PoliticalOfficial {
 
     private String name;
     private Address[] address;
     private String party;
-    private Phone phone;
-    private Url URL;
+    private Phone[] phones;
+    private Url[] urls;
     private String photoUrl;
     private Channel channel;
     private Email email;
@@ -41,20 +43,20 @@ public class PoliticalOfficial {
         this.party = party;
     }
 
-    public Phone getPhone() {
-        return phone;
+    public Phone[] getPhones() {
+        return phones;
     }
 
-    public void setPhone(Phone phone) {
-        this.phone = phone;
+    public void setPhones(Phone[] phones) {
+        this.phones = phones;
     }
 
-    public Url getURL() {
-        return URL;
+    public Url[] getUrls() {
+        return urls;
     }
 
-    public void setURL(Url URL) {
-        this.URL = URL;
+    public void setUrls(Url[] urls) {
+        this.urls = urls;
     }
 
     public String getPhotoUrl() {
@@ -77,12 +79,13 @@ public class PoliticalOfficial {
     public String toString() {
         return "PoliticalOfficial{" +
                 "name='" + name + '\'' +
-                ", address=" + address +
+                ", address=" + Arrays.toString(address) +
                 ", party='" + party + '\'' +
-                ", phone=" + phone +
-                ", URL=" + URL +
+                ", phones=" + Arrays.toString(phones) +
+                ", urls=" + Arrays.toString(urls) +
                 ", photoUrl='" + photoUrl + '\'' +
                 ", channel=" + channel +
+                ", email=" + email +
                 '}';
     }
 }
