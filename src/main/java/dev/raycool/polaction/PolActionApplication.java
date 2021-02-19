@@ -33,7 +33,7 @@ public class PolActionApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		String googleApiKey = "";
+		String googleApiKey = "AIzaSyB-tUdCgR_eX1pDG2E2xIVDTqPZzto90ac";
 		String address = "39.674768, -75.6592079";
 		String formattedGoogleApiUrl = String.format("https://www.googleapis.com/civicinfo/v2/representatives/?&address=%s&includeOffices=true&key=%s", address, googleApiKey);
 
