@@ -1,4 +1,4 @@
-package dev.raycool.polaction.officesmodel;
+package dev.raycool.polaction.officesmodels;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

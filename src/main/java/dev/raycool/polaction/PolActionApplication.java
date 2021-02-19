@@ -1,7 +1,7 @@
 package dev.raycool.polaction;
 
-import dev.raycool.polaction.officialsmodel.PoliticalOfficialsResponse;
-import dev.raycool.polaction.officialsmodel.PoliticalOfficial;
+import dev.raycool.polaction.officialsmodels.PoliticalOfficialsResponse;
+import dev.raycool.polaction.officialsmodels.PoliticalOfficial;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +52,7 @@ public class PolActionApplication implements CommandLineRunner {
 				logger.info(politicalOfficial.getUrls()[0].getUrl());
 			}
 			logger.info("\n");
+
 		}
 	}
 }

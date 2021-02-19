@@ -1,4 +1,4 @@
-package dev.raycool.polaction.officesmodel;
+package dev.raycool.polaction.officesmodels;
 
 public class Role {
     private String role;

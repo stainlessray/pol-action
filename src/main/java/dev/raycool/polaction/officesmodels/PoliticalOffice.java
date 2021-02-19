@@ -1,4 +1,4 @@
-package dev.raycool.polaction.officesmodel;
+package dev.raycool.polaction.officesmodels;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -7,11 +7,6 @@ import java.util.Arrays;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PoliticalOffice {
 
-    //todo pojo's for:
-    //  Level
-    //  Role
-    //  OfficialIndex
-    //
     private String name;
     private String divisionId;
     private Level[] levels;

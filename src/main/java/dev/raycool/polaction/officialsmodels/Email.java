@@ -1,4 +1,4 @@
-package dev.raycool.polaction.officialsmodel;
+package dev.raycool.polaction.officialsmodels;
 
 public class Email {
     private String email;
