@@ -4,20 +4,27 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Level {
-    private String level;
+    private String country;
+
+    public Level() {
+    }
+
+    public Level(String country) {
+        this.country = country;
+    }
 
     public String getLevel() {
-        return level;
+        return country;
     }
 
     public void setLevel(String level) {
-        this.level = level;
+        this.country = level;
     }
 
     @Override
     public String toString() {
         return "Level{" +
-                "level='" + level + '\'' +
+                "level='" + country + '\'' +
                 '}';
     }
 }

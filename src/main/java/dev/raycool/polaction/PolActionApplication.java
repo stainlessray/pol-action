@@ -1,5 +1,7 @@
 package dev.raycool.polaction;
 
+import dev.raycool.polaction.officesmodels.PoliticalOffice;
+import dev.raycool.polaction.officesmodels.PoliticalOfficesResponse;
 import dev.raycool.polaction.officialsmodels.PoliticalOfficialsResponse;
 import dev.raycool.polaction.officialsmodels.PoliticalOfficial;
 import org.slf4j.Logger;
@@ -19,13 +21,20 @@ public class PolActionApplication implements CommandLineRunner {
 
 	@Autowired
 	RestTemplate restTemplate;
+	@Autowired
+	RestTemplate restTemplate2;
 
 	public static void main(String[] args) {
 		SpringApplication.run(PolActionApplication.class, args);
 	}
 
 	@Bean
-	public RestTemplate createRestTemplate(){
+	public RestTemplate restTemplate(){
+		return new RestTemplate();
+	}
+
+	@Bean
+	public RestTemplate restTemplate2(){
 		return new RestTemplate();
 	}
 
@@ -52,6 +61,13 @@ public class PolActionApplication implements CommandLineRunner {
 				logger.info(politicalOfficial.getUrls()[0].getUrl());
 			}
 			logger.info("\n");
+
+			ResponseEntity<PoliticalOfficesResponse> response2 = restTemplate2.getForEntity(formattedGoogleApiUrl, PoliticalOfficesResponse.class);
+			PoliticalOffice[] allOffices = response2.getBody().getOffices();
+			logger.info("\n" + "++++++++++++++++++++++++++++++++" + "\n");
+			System.out.println(allOffices[0].toString());
+
+
 
 		}
 	}

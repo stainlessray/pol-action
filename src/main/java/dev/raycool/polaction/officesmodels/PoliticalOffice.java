@@ -9,7 +9,7 @@ public class PoliticalOffice {
 
     private String name;
     private String divisionId;
-    private Level[] levels;
+    //private Level[] levels;
     private Role[] roles;
     private OfficialIndex[] officialIndices;
 
@@ -29,13 +29,13 @@ public class PoliticalOffice {
         this.divisionId = divisionId;
     }
 
-    public Level[] getLevels() {
+/*    public Level[] getLevels() {
         return levels;
     }
 
     public void setLevels(Level[] levels) {
         this.levels = levels;
-    }
+    }*/
 
     public Role[] getRoles() {
         return roles;
@@ -58,7 +58,7 @@ public class PoliticalOffice {
         return "PoliticalOffice{" +
                 "name='" + name + '\'' +
                 ", divisionId='" + divisionId + '\'' +
-                ", levels=" + Arrays.toString(levels) +
+               // ", levels=" + Arrays.toString(levels) +
                 ", roles=" + Arrays.toString(roles) +
                 ", officialIndices=" + Arrays.toString(officialIndices) +
                 '}';
