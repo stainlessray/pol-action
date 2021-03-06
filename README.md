@@ -18,8 +18,8 @@ Links: <br>
 The application leverages Spring Boot and these dependencies:
 
 <ol>
-+ Spring starter JPA <br>
-+ H2 in-memory database <br>
-+ Spring Web <br>
+ Spring starter JPA <br>
+ H2 in-memory database <br>
+ Spring Web <br>
 </ol>
 
