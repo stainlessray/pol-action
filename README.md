@@ -1,7 +1,7 @@
 ## PolAction
 
 This is an application being developed for the purpose of making local political officials 
-more accessible to everyone who wishes to engage with political representatives in a meaningful way. After release there will be a sprint implement consumption of a second API for marrying "roll-call" vote histories with representatives by name.
+more accessible to everyone who wishes to engage with political representatives in a meaningful way. After release there will be a sprint to implement the consumption of a second API for marrying "roll-call" vote histories with representatives by name.
 <br>
 
 
