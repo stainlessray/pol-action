@@ -1,7 +1,6 @@
 package dev.raycool.polaction;
 
 import dev.raycool.polaction.officesmodels.PoliticalOffice;
-import dev.raycool.polaction.officesmodels.PoliticalOfficesResponse;
 import dev.raycool.polaction.officialsmodels.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,13 +51,13 @@ public class PolActionApplication implements CommandLineRunner {
 		String stateOfPennsylvania = "Pennsylvania";
 		String stateOfDelaware = "Delaware";
 		String address = "39.278171, -75.602260";
-		String formattedGoogleApiUrl = String.format("https://www.googleapis.com/civicinfo/v2/representatives/?&address=%s&includeOffices=true&key=%s", stateOfPennsylvania, googleApiKey);
+		String formattedGoogleApiUrl = String.format("https://www.googleapis.com/civicinfo/v2/representatives/?&address=%s&includeOffices=true&key=%s", address, googleApiKey);
 
 		ResponseEntity<PoliticalOfficialsResponse> response = restTemplate.getForEntity(formattedGoogleApiUrl, PoliticalOfficialsResponse.class);
 		PoliticalOfficial[] allOfficials = Objects.requireNonNull(response.getBody()).getOfficials();
 
-		ResponseEntity<PoliticalOfficesResponse> response2 = restTemplate2.getForEntity(formattedGoogleApiUrl, PoliticalOfficesResponse.class);
-		PoliticalOffice[] allOffices = Objects.requireNonNull(response2.getBody()).getOffices();
+		//ResponseEntity<PoliticalOfficesResponse> response2 = restTemplate2.getForEntity(formattedGoogleApiUrl, PoliticalOfficesResponse.class);
+		PoliticalOffice[] allOffices = Objects.requireNonNull(response.getBody()).getOffices();
 
 		logger.info("++++++++++++++++++++++++++++++++");
 		for(PoliticalOffice politicalOffice : allOffices) {
@@ -77,10 +76,10 @@ public class PolActionApplication implements CommandLineRunner {
 					logger.info(politicalOfficial.getAddress()[0].getState());
 					logger.info(politicalOfficial.getParty());
 					logger.info(politicalOfficial.getPhotoUrl());
-					}
-					if (politicalOfficial.getPhones() != null) {
-						for (Phone phoneNumber : politicalOfficial.getPhones()) {
-							logger.info(phoneNumber.getPhone());
+				}
+				if (politicalOfficial.getPhones() != null) {
+					for (Phone phoneNumber : politicalOfficial.getPhones()) {
+						logger.info(phoneNumber.getPhone());
 					}
 					if (politicalOfficial.getUrls() != null) {
 						for (Url url : politicalOfficial.getUrls()) {
