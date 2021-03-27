@@ -60,7 +60,6 @@ public class PolActionApplication implements CommandLineRunner {
 		ResponseEntity<PoliticalOfficesResponse> response2 = restTemplate2.getForEntity(formattedGoogleApiUrl, PoliticalOfficesResponse.class);
 		PoliticalOffice[] allOffices = Objects.requireNonNull(response2.getBody()).getOffices();
 
-
 		logger.info("++++++++++++++++++++++++++++++++");
 		for(PoliticalOffice politicalOffice : allOffices) {
 			for (int i = 0; i < politicalOffice.getOfficialIndices().length; i++ ) {
