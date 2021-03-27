@@ -2,17 +2,19 @@ package dev.raycool.polaction;
 
 import dev.raycool.polaction.officesmodels.PoliticalOffice;
 import dev.raycool.polaction.officesmodels.PoliticalOfficesResponse;
-import dev.raycool.polaction.officialsmodels.PoliticalOfficialsResponse;
-import dev.raycool.polaction.officialsmodels.PoliticalOfficial;
+import dev.raycool.polaction.officialsmodels.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.Objects;
 
 //todo
 // Implement error handling for template population actions.
@@ -24,6 +26,8 @@ import org.springframework.web.client.RestTemplate;
 public class PolActionApplication implements CommandLineRunner {
 
 	private static final Logger logger = LoggerFactory.getLogger(PolActionApplication.class);
+	@Value("${apikey}")
+	private String googleApiKey;
 
 	@Autowired
 	RestTemplate restTemplate;
@@ -46,48 +50,49 @@ public class PolActionApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		String googleApiKey = "";
-		//String address = "39.278171, -75.602260"; //39.278171, 75.602260
-		String address = "538 Barley Ct, Smyrna, Delaware, 19977";
 
+		String address = "39.278171, -75.602260";
 		String formattedGoogleApiUrl = String.format("https://www.googleapis.com/civicinfo/v2/representatives/?&address=%s&includeOffices=true&key=%s", address, googleApiKey);
 
 		ResponseEntity<PoliticalOfficialsResponse> response = restTemplate.getForEntity(formattedGoogleApiUrl, PoliticalOfficialsResponse.class);
+		PoliticalOfficial[] allOfficials = Objects.requireNonNull(response.getBody()).getOfficials();
 
-		PoliticalOfficial[] allOfficials = response.getBody().getOfficials();
-		logger.info("\n" + "++++++++++++++++++++++++++++++++" + "\n");
-		for(PoliticalOfficial politicalOfficial : allOfficials) {
-			logger.info(politicalOfficial.toString());
-			logger.info(politicalOfficial.getName());
-			logger.info(politicalOfficial.getAddress()[0].toString());
-			logger.info(politicalOfficial.getAddress()[0].getLine1());
-			logger.info(politicalOfficial.getAddress()[0].getCity());
-			logger.info(politicalOfficial.getAddress()[0].getState());
-			logger.info(politicalOfficial.getParty());
-			logger.info(politicalOfficial.getPhotoUrl());
-			logger.info(politicalOfficial.getPhones()[0].getPhone());
-			if (politicalOfficial.getUrls() != null) {
-				logger.info(politicalOfficial.getUrls()[0].getUrl());
-			}
-			logger.info("\n");
-
-
-		}
 		ResponseEntity<PoliticalOfficesResponse> response2 = restTemplate2.getForEntity(formattedGoogleApiUrl, PoliticalOfficesResponse.class);
-		PoliticalOffice[] allOffices = response2.getBody().getOffices();
-		logger.info("\n" + "++++++++++++++++++++++++++++++++" + "\n");
-		logger.info(allOffices[0].getLevels()[0].getLevel());
+		PoliticalOffice[] allOffices = Objects.requireNonNull(response2.getBody()).getOffices();
+
+
+		logger.info("++++++++++++++++++++++++++++++++");
 		for(PoliticalOffice politicalOffice : allOffices) {
-			logger.info(politicalOffice.getName());
-			logger.info(politicalOffice.getDivisionId());
+			for (int i = 0; i < politicalOffice.getOfficialIndices().length; i++ ) {
+				logger.info(politicalOffice.getName());
+				PoliticalOfficial politicalOfficial = allOfficials[politicalOffice.getOfficialIndices()[i].getOfficialIndices()];
+				logger.info(politicalOfficial.getName());
+				if (politicalOfficial.getAddress() != null) {
+					logger.info(politicalOfficial.getAddress()[0].getLine1());
+					logger.info(politicalOfficial.getAddress()[0].getCity());
+					logger.info(politicalOfficial.getAddress()[0].getState());
+					logger.info(politicalOfficial.getParty());
+					logger.info(politicalOfficial.getPhotoUrl());
 
-			logger.info("length of indices array = " + politicalOffice.getOfficialIndices().length);
-			logger.info(String.valueOf(politicalOffice.getOfficialIndices()[0].getOfficialIndices()));
-			if (politicalOffice.getOfficialIndices().length == 2) {
-				logger.info(String.valueOf(politicalOffice.getOfficialIndices()[1].getOfficialIndices()));
+					}
+					if (politicalOfficial.getPhones() != null) {
+						for (Phone phoneNumber : politicalOfficial.getPhones()) {
+							logger.info(phoneNumber.getPhone());
+					}
+					if (politicalOfficial.getUrls() != null) {
+						for (Url url : politicalOfficial.getUrls()) {
+							logger.info(url.getUrl());
+						}
+
+					}
+					if (politicalOfficial.getChannels() != null) {
+						for (Channel channel : politicalOfficial.getChannels()) {
+							logger.info(channel.getType() + " handle: " + channel.getId());
+						}
+					}
+				}
+				logger.info("++++++++++++++++++++++++++++++++" + "\n");
 			}
-			logger.info("\n");
-
 		}
 	}
 }
