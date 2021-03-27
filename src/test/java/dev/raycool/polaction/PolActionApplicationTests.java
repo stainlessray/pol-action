@@ -9,5 +9,4 @@ class PolActionApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }

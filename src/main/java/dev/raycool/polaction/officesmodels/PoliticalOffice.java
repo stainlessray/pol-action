@@ -1,9 +1,11 @@
 package dev.raycool.polaction.officesmodels;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.Arrays;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PoliticalOffice {
 
@@ -58,7 +60,7 @@ public class PoliticalOffice {
         return "PoliticalOffice{" +
                 "name='" + name + '\'' +
                 ", divisionId='" + divisionId + '\'' +
-               // ", levels=" + Arrays.toString(levels) +
+                ", levels=" + Arrays.toString(levels) +
                 ", roles=" + Arrays.toString(roles) +
                 ", officialIndices=" + Arrays.toString(officialIndices) +
                 '}';

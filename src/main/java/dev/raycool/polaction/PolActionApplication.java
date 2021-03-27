@@ -34,25 +34,25 @@ public class PolActionApplication implements CommandLineRunner {
 	@Autowired
 	RestTemplate restTemplate2;
 
-	public static void main(String[] args) {
-		SpringApplication.run(PolActionApplication.class, args);
-	}
-
 	@Bean
-	public RestTemplate restTemplate(){
-		return new RestTemplate();
-	}
+	public RestTemplate restTemplate(){ return new RestTemplate(); }
 
 	@Bean
 	public RestTemplate restTemplate2(){
 		return new RestTemplate();
 	}
 
+	public static void main(String[] args) {
+		SpringApplication.run(PolActionApplication.class, args);
+	}
+
 	@Override
 	public void run(String... args) throws Exception {
 
+		String stateOfPennsylvania = "Pennsylvania";
+		String stateOfDelaware = "Delaware";
 		String address = "39.278171, -75.602260";
-		String formattedGoogleApiUrl = String.format("https://www.googleapis.com/civicinfo/v2/representatives/?&address=%s&includeOffices=true&key=%s", address, googleApiKey);
+		String formattedGoogleApiUrl = String.format("https://www.googleapis.com/civicinfo/v2/representatives/?&address=%s&includeOffices=true&key=%s", stateOfPennsylvania, googleApiKey);
 
 		ResponseEntity<PoliticalOfficialsResponse> response = restTemplate.getForEntity(formattedGoogleApiUrl, PoliticalOfficialsResponse.class);
 		PoliticalOfficial[] allOfficials = Objects.requireNonNull(response.getBody()).getOfficials();
@@ -62,8 +62,13 @@ public class PolActionApplication implements CommandLineRunner {
 
 		logger.info("++++++++++++++++++++++++++++++++");
 		for(PoliticalOffice politicalOffice : allOffices) {
+			logger.info(politicalOffice.getName());
+			if (politicalOffice.getRoles() != null) {
+				logger.info(politicalOffice.getRoles()[0].getRole());
+			}
+
 			for (int i = 0; i < politicalOffice.getOfficialIndices().length; i++ ) {
-				logger.info(politicalOffice.getName());
+				//logger.info(politicalOffice.getName());
 				PoliticalOfficial politicalOfficial = allOfficials[politicalOffice.getOfficialIndices()[i].getOfficialIndices()];
 				logger.info(politicalOfficial.getName());
 				if (politicalOfficial.getAddress() != null) {
@@ -72,7 +77,6 @@ public class PolActionApplication implements CommandLineRunner {
 					logger.info(politicalOfficial.getAddress()[0].getState());
 					logger.info(politicalOfficial.getParty());
 					logger.info(politicalOfficial.getPhotoUrl());
-
 					}
 					if (politicalOfficial.getPhones() != null) {
 						for (Phone phoneNumber : politicalOfficial.getPhones()) {
@@ -82,7 +86,6 @@ public class PolActionApplication implements CommandLineRunner {
 						for (Url url : politicalOfficial.getUrls()) {
 							logger.info(url.getUrl());
 						}
-
 					}
 					if (politicalOfficial.getChannels() != null) {
 						for (Channel channel : politicalOfficial.getChannels()) {
