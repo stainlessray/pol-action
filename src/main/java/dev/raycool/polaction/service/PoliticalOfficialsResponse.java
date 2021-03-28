@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import dev.raycool.polaction.officesmodels.PoliticalOffice;
 import dev.raycool.polaction.officialsmodels.PoliticalOfficial;
 
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PoliticalOfficialsResponse {
 

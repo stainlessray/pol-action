@@ -66,7 +66,6 @@ public class PolActionApplication implements CommandLineRunner {
 			}
 
 			for (int i = 0; i < politicalOffice.getOfficialIndices().length; i++ ) {
-				//logger.info(politicalOffice.getName());
 				PoliticalOfficial politicalOfficial = allOfficials[politicalOffice.getOfficialIndices()[i].getOfficialIndices()];
 				logger.info(politicalOfficial.getName());
 				if (politicalOfficial.getAddress() != null) {
