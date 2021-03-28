@@ -53,8 +53,10 @@ public class Address {
 
     @Override
     public String toString() {
-        StringBuilder addressString = new StringBuilder(line1 + ", " + city + " " + state + " " + zip + "\n");
+        StringBuilder addressString = new StringBuilder(
+                line1 + ", "
+                + city + " " + state + " "
+                + zip );
         return addressString.toString();
     }
-
 }

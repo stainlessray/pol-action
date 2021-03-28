@@ -17,7 +17,7 @@ public class PoliticalOfficial {
     private Url[] urls;
     private String photoUrl;
     private Channel[] channels;
-    private Email email;
+    private Email[] emails;
 
     public PoliticalOfficial() {
     }
@@ -76,6 +76,14 @@ public class PoliticalOfficial {
         this.channels = channels;
     }
 
+    public Email[] getEmails() {
+        return emails;
+    }
+
+    public void setEmails(Email[] emails) {
+        this.emails = emails;
+    }
+
     @Override
     public String toString() {
         return "PoliticalOfficial{" +
@@ -86,7 +94,7 @@ public class PoliticalOfficial {
                 ", urls=" + Arrays.toString(urls) +
                 ", photoUrl='" + photoUrl + '\'' +
                 ", channels=" + Arrays.toString(channels) +
-                ", email=" + email +
+                ", emails=" + Arrays.toString(emails) +
                 '}';
     }
 }

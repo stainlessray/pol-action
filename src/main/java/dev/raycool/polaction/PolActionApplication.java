@@ -49,13 +49,15 @@ public class PolActionApplication implements CommandLineRunner {
 
 		String stateOfPennsylvania = "Pennsylvania";
 		String paZipCode = "15001";
+		String deZipCode = "19977";
 		String stateOfDelaware = "Delaware";
 		String address = "39.278171, -75.602260";
-		String formattedGoogleApiUrl = String.format("https://www.googleapis.com/civicinfo/v2/representatives/?&address=%s&includeOffices=true&key=%s", paZipCode, googleApiKey);
+		String formattedGoogleApiUrl = String.format("https://www.googleapis.com/civicinfo/v2/representatives/?&address=%s&includeOffices=true&key=%s", deZipCode, googleApiKey);
 
 		ResponseEntity<PoliticalOfficialsResponse> response = restTemplate.getForEntity(formattedGoogleApiUrl, PoliticalOfficialsResponse.class);
 		PoliticalOfficial[] allOfficials = Objects.requireNonNull(response.getBody()).getOfficials();
 		PoliticalOffice[] allOffices = Objects.requireNonNull(response.getBody()).getOffices();
+		System.out.println(allOfficials[0].toString());
 
 		logger.info("\n++++++++++++++++++++++++++++++++");
 		for(PoliticalOffice politicalOffice : allOffices) {
@@ -70,10 +72,16 @@ public class PolActionApplication implements CommandLineRunner {
 			for (int i = 0; i < politicalOffice.getOfficialIndices().length; i++ ) {
 				PoliticalOfficial politicalOfficial = allOfficials[politicalOffice.getOfficialIndices()[i].getOfficialIndices()];
 				logger.info(politicalOfficial.getName());
+				logger.info(politicalOfficial.toString());
+
 				if (politicalOfficial.getAddress() != null) {
+
 					logger.info(politicalOfficial.getAddress()[0].toString());
 					logger.info(politicalOfficial.getParty());
 					logger.info(politicalOfficial.getPhotoUrl());
+				}
+				if (politicalOfficial.getEmails() != null) {
+					logger.info(politicalOfficial.getEmails()[0].toString());
 				}
 				if (politicalOfficial.getPhones() != null) {
 					for (Phone phoneNumber : politicalOfficial.getPhones()) {
