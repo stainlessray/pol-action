@@ -12,12 +12,12 @@ public class PoliticalOfficial {
     private String name;
     private Address[] address;
     private String party;
-
     private Phone[] phones;
-    private Url[] urls;
+    private Email[] emails;
     private String photoUrl;
     private Channel[] channels;
-    private Email[] emails;
+    private Url[] urls;
+
 
     public PoliticalOfficial() {
     }

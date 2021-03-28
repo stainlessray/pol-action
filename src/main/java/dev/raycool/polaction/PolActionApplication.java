@@ -1,10 +1,7 @@
 package dev.raycool.polaction;
 
 import dev.raycool.polaction.officesresponsemodels.PoliticalOffice;
-import dev.raycool.polaction.officialsresponsemodels.Channel;
-import dev.raycool.polaction.officialsresponsemodels.Phone;
-import dev.raycool.polaction.officialsresponsemodels.PoliticalOfficial;
-import dev.raycool.polaction.officialsresponsemodels.Url;
+import dev.raycool.polaction.officialsresponsemodels.*;
 import dev.raycool.polaction.service.PoliticalOfficialsResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,11 +16,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Objects;
 
-//todo
-// Implement error handling for template population actions.
-// directly handle with try, catch, finally.
-// user flow may need to offer less refined results to users who experience problems.
-//
 
 @SpringBootApplication
 public class PolActionApplication implements CommandLineRunner {
@@ -31,11 +23,11 @@ public class PolActionApplication implements CommandLineRunner {
 	private static final Logger logger = LoggerFactory.getLogger(PolActionApplication.class);
 	@Value("${apikey}")
 	private String googleApiKey;
+	StringBuilder politicalContactProfile = new StringBuilder("\n");
 
 	@Autowired
 	RestTemplate restTemplate;
-	@Autowired
-	RestTemplate restTemplate2;
+
 
 	@Bean
 	public RestTemplate restTemplate(){ return new RestTemplate(); }
@@ -57,49 +49,86 @@ public class PolActionApplication implements CommandLineRunner {
 		ResponseEntity<PoliticalOfficialsResponse> response = restTemplate.getForEntity(formattedGoogleApiUrl, PoliticalOfficialsResponse.class);
 		PoliticalOfficial[] allOfficials = Objects.requireNonNull(response.getBody()).getOfficials();
 		PoliticalOffice[] allOffices = Objects.requireNonNull(response.getBody()).getOffices();
-		System.out.println(allOfficials[0].toString());
+		String locationName = String.valueOf(response.getBody().getNormalizedInput().toString());
+
 
 		logger.info("\n++++++++++++++++++++++++++++++++");
+		appendToContactCard("\n+++++++Top Of Profile+++++++");
+		logger.info(locationName);
+		appendToContactCard(locationName);
 		for(PoliticalOffice politicalOffice : allOffices) {
 			logger.info(politicalOffice.getName());
+			appendToContactCard("\nOFFICE");
+			appendToContactCard(politicalOffice.getName());
+			appendToContactCard("API Levels:");
 			for (int i = 0; i < politicalOffice.getLevels().length; i++) {
 				logger.info(politicalOffice.getLevels()[i].toString());
+				appendToContactCard(politicalOffice.getLevels()[i].toString());
 			}
+
 			if (politicalOffice.getRoles() != null) {
-				logger.info(politicalOffice.getRoles()[0].getRole());
+				appendToContactCard("API Roles:");
+				for (int i = 0; i < politicalOffice.getRoles().length; i++) {
+					appendToContactCard(politicalOffice.getRoles()[i].toString());
+					logger.info(politicalOffice.getRoles()[i].getRole());
+				}
 			}
 
 			for (int i = 0; i < politicalOffice.getOfficialIndices().length; i++ ) {
-				PoliticalOfficial politicalOfficial = allOfficials[politicalOffice.getOfficialIndices()[i].getOfficialIndices()];
+				PoliticalOfficial politicalOfficial = allOfficials[politicalOffice.getOfficialIndices()[i].getOfficialIndex()];
 				logger.info(politicalOfficial.getName());
-				logger.info(politicalOfficial.toString());
+				//appendToContactCard("\nOFFICIAL");
+				appendToContactCard(politicalOfficial.getName());
 
 				if (politicalOfficial.getAddress() != null) {
-
-					logger.info(politicalOfficial.getAddress()[0].toString());
-					logger.info(politicalOfficial.getParty());
-					logger.info(politicalOfficial.getPhotoUrl());
+					logger.info("Address: " + politicalOfficial.getAddress()[0].toString());
+					appendToContactCard("Address: " + politicalOfficial.getAddress()[0].toString());
+				}
+				if (politicalOfficial.getParty() != null) {
+					logger.info("Affiliation: " + politicalOfficial.getParty());
+					appendToContactCard("Affiliation: " + politicalOfficial.getParty());
+				}
+				if (politicalOfficial.getPhotoUrl() != null) {
+					logger.info("Photo: " + politicalOfficial.getPhotoUrl());
+					appendToContactCard("Photo: " + politicalOfficial.getPhotoUrl());
 				}
 				if (politicalOfficial.getEmails() != null) {
-					logger.info(politicalOfficial.getEmails()[0].toString());
+					for (Email emailAddress : politicalOfficial.getEmails()) {
+						logger.info(emailAddress.getEmail());
+						appendToContactCard("Email: " + emailAddress.getEmail());
+					}
 				}
+
 				if (politicalOfficial.getPhones() != null) {
+					appendToContactCard("Phones: ");
 					for (Phone phoneNumber : politicalOfficial.getPhones()) {
 						logger.info(phoneNumber.getPhone());
+						appendToContactCard(phoneNumber.getPhone());
 					}
 					if (politicalOfficial.getUrls() != null) {
 						for (Url url : politicalOfficial.getUrls()) {
 							logger.info(url.getUrl());
+							appendToContactCard("Url: " + url.getUrl());
 						}
 					}
 					if (politicalOfficial.getChannels() != null) {
 						for (Channel channel : politicalOfficial.getChannels()) {
 							logger.info(channel.getType() + " handle: " + channel.getId());
+							appendToContactCard(channel.getType() + " handle: " + channel.getId());
 						}
 					}
 				}
 				logger.info("++++++++++++++++++++++++++++++++" + "\n");
 			}
 		}
+		appendToContactCard("\n+++++++Bottom Of Profile+++++++");
+
+		System.out.println(politicalContactProfile);
+
+	}
+
+	public StringBuilder appendToContactCard(String contactElement) {
+		politicalContactProfile.append(contactElement).append("\n");
+		return politicalContactProfile;
 	}
 }

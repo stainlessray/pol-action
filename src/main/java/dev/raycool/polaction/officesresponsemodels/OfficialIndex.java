@@ -4,20 +4,20 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class OfficialIndex {
-    private Integer officialIndices;
+    private Integer officialIndex;
 
     public OfficialIndex() {
     }
 
-    public OfficialIndex(Integer officialIndices) {
-        this.officialIndices = officialIndices;
+    public OfficialIndex(Integer officialIndex) {
+        this.officialIndex = officialIndex;
     }
 
-    public Integer getOfficialIndices() {
-        return officialIndices;
+    public Integer getOfficialIndex() {
+        return officialIndex;
     }
 
-    public void setOfficialIndices(Integer officialIndices) {
-        this.officialIndices = officialIndices;
+    public void setOfficialIndex(Integer officialIndex) {
+        this.officialIndex = officialIndex;
     }
 }
