@@ -2,6 +2,7 @@ package dev.raycool.polaction;
 
 import dev.raycool.polaction.officesmodels.PoliticalOffice;
 import dev.raycool.polaction.officialsmodels.*;
+import dev.raycool.polaction.service.PoliticalOfficialsResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +37,10 @@ public class PolActionApplication implements CommandLineRunner {
 	@Bean
 	public RestTemplate restTemplate(){ return new RestTemplate(); }
 
-	@Bean
-	public RestTemplate restTemplate2(){
-		return new RestTemplate();
-	}
+	//@Bean
+	//public RestTemplate restTemplate2(){
+		//return new RestTemplate();
+	//}
 
 	public static void main(String[] args) {
 		SpringApplication.run(PolActionApplication.class, args);
@@ -55,11 +56,9 @@ public class PolActionApplication implements CommandLineRunner {
 
 		ResponseEntity<PoliticalOfficialsResponse> response = restTemplate.getForEntity(formattedGoogleApiUrl, PoliticalOfficialsResponse.class);
 		PoliticalOfficial[] allOfficials = Objects.requireNonNull(response.getBody()).getOfficials();
-
-		//ResponseEntity<PoliticalOfficesResponse> response2 = restTemplate2.getForEntity(formattedGoogleApiUrl, PoliticalOfficesResponse.class);
 		PoliticalOffice[] allOffices = Objects.requireNonNull(response.getBody()).getOffices();
 
-		logger.info("++++++++++++++++++++++++++++++++");
+		logger.info("\n++++++++++++++++++++++++++++++++");
 		for(PoliticalOffice politicalOffice : allOffices) {
 			logger.info(politicalOffice.getName());
 			if (politicalOffice.getRoles() != null) {
