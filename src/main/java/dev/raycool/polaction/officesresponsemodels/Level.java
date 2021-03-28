@@ -1,4 +1,4 @@
-package dev.raycool.polaction.officesmodels;
+package dev.raycool.polaction.officesresponsemodels;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -23,8 +23,6 @@ public class Level {
 
     @Override
     public String toString() {
-        return "Level{" +
-                "level='" + country + '\'' +
-                '}';
+        return "Level: " + country ;
     }
 }

@@ -1,4 +1,4 @@
-package dev.raycool.polaction.officialsmodels;
+package dev.raycool.polaction.officialsresponsemodels;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -53,11 +53,8 @@ public class Address {
 
     @Override
     public String toString() {
-        return "Address{" +
-                "line1='" + line1 + '\'' +
-                ", city='" + city + '\'' +
-                ", state='" + state + '\'' +
-                ", zip='" + zip + '\'' +
-                '}';
+        StringBuilder addressString = new StringBuilder(line1 + ", " + city + " " + state + " " + zip + "\n");
+        return addressString.toString();
     }
+
 }
