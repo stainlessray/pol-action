@@ -7,13 +7,13 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class NormalizedInput {
 
-    private String locationName;
-    private String line1;
-    private String line2;
-    private String line3;
-    private String city;
-    private String state;
-    private String zip;
+    private String locationName = "";
+    private String line1 = "";
+    private String line2 = "";
+    private String line3 = "";
+    private String city = "";
+    private String state = "";
+    private String zip = "";
 
 
 
@@ -75,14 +75,6 @@ public class NormalizedInput {
 
     @Override
     public String toString() {
-        return "NormalizedInput{" +
-                "locationName='" + locationName + '\'' +
-                ", line1='" + line1 + '\'' +
-                ", line2='" + line2 + '\'' +
-                ", line3='" + line3 + '\'' +
-                ", city='" + city + '\'' +
-                ", state='" + state + '\'' +
-                ", zip='" + zip + '\'' +
-                '}';
+        return "Search location data " + locationName + " " + line1 + " " + line2 + " " + line3 + " " + city + " " + state + " " + zip;
     }
 }

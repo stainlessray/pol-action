@@ -1,7 +1,7 @@
 package dev.raycool.polaction.models;
 
 public class PoliticalContactProfile {
-    private StringBuilder contactProfile;
+    private static StringBuilder contactProfile;
 
     public StringBuilder getContactProfile() {
         return contactProfile;
