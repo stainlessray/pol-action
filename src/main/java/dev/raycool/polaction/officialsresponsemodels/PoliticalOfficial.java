@@ -50,10 +50,10 @@ public class PoliticalOfficial {
         return phones;
     }
 
-    public StringBuilder getAllPhonesAsList() {
+    public StringBuilder getAllPhonesAsHtmlFormattedList() {
         StringBuilder phoneList = new StringBuilder();
         for (Phone phone : phones) {
-            phoneList.append(phone +"\n");
+            phoneList.append(String.format("<a href = \"tel:%s\">%s</a><br>", phone, phone));
         }
         return phoneList;
     }
@@ -96,15 +96,15 @@ public class PoliticalOfficial {
 
     @Override
     public String toString() {
-        return "PoliticalOfficial{" +
-                "name='" + name + '\'' +
-                ", address=" + Arrays.toString(addresses) +
-                ", party='" + party + '\'' +
-                ", phones=" + Arrays.toString(phones) +
-                ", urls=" + Arrays.toString(urls) +
-                ", photoUrl='" + photoUrl + '\'' +
-                ", channels=" + Arrays.toString(channels) +
-                ", emails=" + Arrays.toString(emails) +
-                '}';
+        return
+                name +
+                Arrays.toString(addresses) +
+                party +
+                getAllPhonesAsHtmlFormattedList() +
+                Arrays.toString(urls) +
+                photoUrl +
+                Arrays.toString(channels) +
+                 Arrays.toString(emails);
     }
 }
+
