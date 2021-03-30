@@ -1,6 +1,6 @@
 package dev.raycool.polaction;
 
-import dev.raycool.polaction.models.PoliticalContactProfile;
+import dev.raycool.polaction.view.PoliticalContactProfile;
 import dev.raycool.polaction.officesresponsemodels.PoliticalOffice;
 import dev.raycool.polaction.officialsresponsemodels.*;
 import dev.raycool.polaction.service.PoliticalOfficialsResponse;
@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Objects;
-
 
 @SpringBootApplication
 @RestController

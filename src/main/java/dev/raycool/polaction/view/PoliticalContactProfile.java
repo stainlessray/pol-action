@@ -1,4 +1,4 @@
-package dev.raycool.polaction.models;
+package dev.raycool.polaction.view;
 
 public class PoliticalContactProfile {
     private static StringBuilder contactProfile;
