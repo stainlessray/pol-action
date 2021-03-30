@@ -10,11 +10,11 @@ import java.util.Arrays;
 public class PoliticalOfficial {
 
     private String name;
-    private Address[] addresses;
     private String party;
+    private String photoUrl;
+    private Address[] addresses;
     private Phone[] phones;
     private Email[] emails;
-    private String photoUrl;
     private Channel[] channels;
     private Url[] urls;
 
@@ -46,7 +46,17 @@ public class PoliticalOfficial {
         this.party = party;
     }
 
-    public Phone[] getPhones() { return phones; }
+    public Phone[] getPhones() {
+        return phones;
+    }
+
+    public StringBuilder getAllPhonesAsList() {
+        StringBuilder phoneList = new StringBuilder();
+        for (Phone phone : phones) {
+            phoneList.append(phone +"\n");
+        }
+        return phoneList;
+    }
 
     public void setPhones(Phone[] phones) {
         this.phones = phones;

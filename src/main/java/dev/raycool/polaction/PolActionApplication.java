@@ -117,6 +117,8 @@ public class PolActionApplication  {
 				String formattedOfficialName = htmlLineFormatter.formatAsH3Header(currentOfficial);
 				logger.info(formattedOfficialName);
 				appendToContactString(formattedOfficialName);
+				logger.info(politicalOfficial.toString());
+				appendToContactString(politicalOfficial.toString());
 
 				if (politicalOfficial.getParty() != null) {
 					String currentAffiliation = politicalOfficial.getParty();
