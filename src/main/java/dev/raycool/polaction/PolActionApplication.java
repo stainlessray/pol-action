@@ -58,7 +58,6 @@ public class PolActionApplication implements CommandLineRunner {
 		PoliticalOfficial[] allOfficials = Objects.requireNonNull(response.getBody()).getOfficials();
 		PoliticalOffice[] allOffices = Objects.requireNonNull(response.getBody()).getOffices();
 
-		logger.info("\n++++++++++++++++++++++++++++++++");
 		for(PoliticalOffice politicalOffice : allOffices) {
 			logger.info(politicalOffice.getName());
 			if (politicalOffice.getRoles() != null) {
