@@ -68,7 +68,6 @@ public class PolActionApplication  {
 		PoliticalOfficial[] allOfficials = Objects.requireNonNull(response.getBody()).getOfficials();
 		PoliticalOffice[] allOffices = Objects.requireNonNull(response.getBody()).getOffices();
 		String locationData = response.getBody().getNormalizedInput().toString();
-		String viewportDef = "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">";
 
 		String htmlHead = "<head>\n" +
 				"  <meta charset=\"UTF-8\">\n" +
@@ -136,8 +135,6 @@ public class PolActionApplication  {
 				if (politicalOfficial.getAddress() != null) {
 					for (Address address : politicalOfficial.getAddress()) {
 						String currentAddress = address.toString();
-						System.out.println(address);
-						System.out.println(currentAddress);
 						String formattedAddress = htmlLineFormatter.formatAsPhysicalAddress(currentAddress);
 						logger.info(formattedAddress);
 						appendToContactString(formattedAddress);
@@ -196,6 +193,7 @@ public class PolActionApplication  {
 
 	public void setContactProfile(StringBuilder politicalContactProfile) throws Exception{
 		polProfile.setContactProfile(politicalContactProfile);
-		System.out.println(polProfile.getContactProfile());
+		logger.info(polProfile.getContactProfile().toString());
+		//System.out.println(polProfile.getContactProfile());
 	}
 }
