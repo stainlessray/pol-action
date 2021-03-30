@@ -10,7 +10,7 @@ import java.util.Arrays;
 public class PoliticalOfficial {
 
     private String name;
-    private Address[] address;
+    private Address[] addresses;
     private String party;
     private Phone[] phones;
     private Email[] emails;
@@ -31,11 +31,11 @@ public class PoliticalOfficial {
     }
 
     public Address[] getAddress() {
-        return address;
+        return addresses;
     }
 
     public void setAddress(Address[] address) {
-        this.address = address;
+        this.addresses = address;
     }
 
     public String getParty() {
@@ -88,7 +88,7 @@ public class PoliticalOfficial {
     public String toString() {
         return "PoliticalOfficial{" +
                 "name='" + name + '\'' +
-                ", address=" + Arrays.toString(address) +
+                ", address=" + Arrays.toString(addresses) +
                 ", party='" + party + '\'' +
                 ", phones=" + Arrays.toString(phones) +
                 ", urls=" + Arrays.toString(urls) +

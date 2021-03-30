@@ -4,27 +4,31 @@ import dev.raycool.polaction.models.PoliticalContactProfile;
 import dev.raycool.polaction.officesresponsemodels.PoliticalOffice;
 import dev.raycool.polaction.officialsresponsemodels.*;
 import dev.raycool.polaction.service.PoliticalOfficialsResponse;
+import dev.raycool.polaction.view.HtmlLineFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Objects;
 
 
 @SpringBootApplication
-public class PolActionApplication implements CommandLineRunner {
+@RestController
+public class PolActionApplication  {
 
 	private static final Logger logger = LoggerFactory.getLogger(PolActionApplication.class);
 	StringBuilder politicalContactProfileString = new StringBuilder("\n");
-	String locationParser = "";
-	String locationToSearch;
+	PoliticalContactProfile polProfile = new PoliticalContactProfile();
+	HtmlLineFormatter htmlLineFormatter = new HtmlLineFormatter();
 
 	@Value("${apikey}")
 	private String googleApiKey;
@@ -39,36 +43,25 @@ public class PolActionApplication implements CommandLineRunner {
 		SpringApplication.run(PolActionApplication.class, args);
 	}
 
-	@Override
-	public void run(String... args) throws Exception {
+	@RequestMapping(value = "/default")
+	public void getData() throws Exception {
+		politicalContactProfileString.setLength(0);
+		consumeGoogleApi("19977");
+	}
 
-		for (String argument : args) {
-			locationParser += argument += " ";
-		}
-		System.out.println(locationParser);
+	@RequestMapping(value = "/api")
+	public String getData(@RequestParam String location) throws Exception {
+		politicalContactProfileString.setLength(0);
+		consumeGoogleApi(location);
+		System.out.println(polProfile.getContactProfile().length());
+		return polProfile.getContactProfile().toString();
+	}
 
-
+	public void consumeGoogleApi(String locationToSearch) throws Exception {
 
 		int countOfOfficials = 0;
 		int countOfOffices = 0;
 		int countOfOfficialsPerOffice = 0;
-
-		String stateOfPennsylvania = "Pennsylvania";
-		String paZipCode = "19348";
-		String deZipCode = "19977";
-		String kentCounty = "Kent County, Delaware";
-		String stateOfDelaware = "Delaware";
-		String coordinatesDE = "39.278171, -75.602260";
-		String coordinatesPA = "39.87192200423589, -75.73844559143794";
-		String localizedLocation = "East Marlborough Township, PA 19348";
-		String coloradoAirport = "7770 Milton E Proby Pkwy, Colorado Springs, CO 80916";
-		String doverDEAddress = "83 Greentree Dr, Dover, DE 19904";
-		String wilmingtonDE = "Wilmington, Delaware";
-		String newJerseyAddress = "974 E Elmer Rd, Vineland, NJ 08360";
-
-		if (locationParser != "") {
-			locationToSearch = locationParser;
-		} else locationToSearch = coloradoAirport;
 
 		String formattedGoogleApiUrl = String.format("https://www.googleapis.com/civicinfo/v2/representatives/?&address=%s&includeOffices=true&key=%s", locationToSearch, googleApiKey);
 
@@ -76,101 +69,133 @@ public class PolActionApplication implements CommandLineRunner {
 		PoliticalOfficial[] allOfficials = Objects.requireNonNull(response.getBody()).getOfficials();
 		PoliticalOffice[] allOffices = Objects.requireNonNull(response.getBody()).getOffices();
 		String locationData = response.getBody().getNormalizedInput().toString();
+		String viewportDef = "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">";
 
-		logger.info("\n++++++++++++++++++++++++++++++++");
+		String htmlHead = "<head>\n" +
+				"  <meta charset=\"UTF-8\">\n" +
+				"  <meta name=\"description\" content=\"Political Reps By Location\">\n" +
+				"  <meta name=\"keywords\" content=\"HTML, CSS, JavaScript\">\n" +
+				"  <meta name=\"author\" content=\"Raymond Cool\">\n" +
+				"  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
+				"</head>";
+
 		logger.info(locationData);
-		appendToContactString("\n+++++++ " + locationData + " +++++++");
+		appendToContactString(htmlHead);
+		appendToContactString("<br>" + locationData );
 
 		for(PoliticalOffice politicalOffice : allOffices) {
 			countOfOffices += 1;
 			countOfOfficialsPerOffice = 0;
-			logger.info(politicalOffice.getName());
-			appendToContactString("\nOFFICE ===================================");
-			appendToContactString(politicalOffice.getName());
+			String currentOffice = politicalOffice.getName();
+			String formattedOffice = htmlLineFormatter.formatAsH2Header(currentOffice);
+			logger.info(formattedOffice);
+			appendToContactString("<br>" + formattedOffice);
 
 			for (int i = 0; i < politicalOffice.getLevels().length; i++) {
 				logger.info(politicalOffice.getLevels()[i].toString());
 			}
 
 			if (politicalOffice.getRoles() != null) {
-				//appendToContactString("API Roles:");
+				//appendToContactString("API Roles:"); //optional
 				for (int i = 0; i < politicalOffice.getRoles().length; i++) {
-					//appendToContactString(politicalOffice.getRoles()[i].toString());
+					//appendToContactString(politicalOffice.getRoles()[i].toString()); //optional
 					logger.info(politicalOffice.getRoles()[i].getRole());
 				}
 			}
 
+			/**
+			 * For the current political office loop exactly the number of times as the length of the list of indexes
+			 *
+			 */
 			for (int i = 0; i < politicalOffice.getOfficialIndices().length; i++ ) {
+
+				/**
+				 * Get the political official who's name appears at the current index number in the Officials array
+				 */
 				PoliticalOfficial politicalOfficial = allOfficials[politicalOffice.getOfficialIndices()[i].getOfficialIndex()];
 				countOfOfficials += 1;
 				countOfOfficialsPerOffice +=1;
-				logger.info(politicalOfficial.getName());
-				appendToContactString(politicalOfficial.getName());
-
-				if (politicalOfficial.getAddress() != null) {
-					logger.info("Address: " + politicalOfficial.getAddress()[0].toString());
-					appendToContactString("Address: " + politicalOfficial.getAddress()[0].toString());
-				}
+				String currentOfficial = politicalOfficial.getName();
+				String formattedOfficialName = htmlLineFormatter.formatAsH3Header(currentOfficial);
+				logger.info(formattedOfficialName);
+				appendToContactString(formattedOfficialName);
 
 				if (politicalOfficial.getParty() != null) {
-					logger.info("Affiliation: " + politicalOfficial.getParty());
-					appendToContactString("Affiliation: " + politicalOfficial.getParty());
+					String currentAffiliation = politicalOfficial.getParty();
+					String formattedAffiliation = htmlLineFormatter.formatAsParagraph(currentAffiliation);
+					logger.info(formattedAffiliation);
+					appendToContactString(formattedAffiliation);
 				}
 
 				if (politicalOfficial.getPhotoUrl() != null) {
-					logger.info("Photo: " + politicalOfficial.getPhotoUrl());
-					appendToContactString("Photo: " + politicalOfficial.getPhotoUrl());
+					String currentPhotoUrl = politicalOfficial.getPhotoUrl();
+					String imageUrl = htmlLineFormatter.formatAsImage(currentPhotoUrl);
+					logger.info("Photo: " + imageUrl);
+					appendToContactString(imageUrl + "<br>");
+				}
+
+				if (politicalOfficial.getAddress() != null) {
+					for (Address address : politicalOfficial.getAddress()) {
+						String currentAddress = address.toString();
+						System.out.println(address);
+						System.out.println(currentAddress);
+						String formattedAddress = htmlLineFormatter.formatAsPhysicalAddress(currentAddress);
+						logger.info(formattedAddress);
+						appendToContactString(formattedAddress);
+					}
 				}
 
 				if (politicalOfficial.getEmails() != null) {
 					for (Email emailAddress : politicalOfficial.getEmails()) {
-						logger.info(emailAddress.getEmail());
-						appendToContactString("Email: " + emailAddress.getEmail());
+						String currentEmailAddress = emailAddress.getEmail();
+						String formattedEmailAddress = htmlLineFormatter.formatAsEmailAddress(currentEmailAddress);
+						logger.info(formattedEmailAddress);
+						appendToContactString(formattedEmailAddress);
 					}
 				}
 
 				if (politicalOfficial.getPhones() != null) {
-					appendToContactString("Phones: ");
+					//appendToContactString("Phones: ");
 					for (Phone phoneNumber : politicalOfficial.getPhones()) {
-						logger.info(phoneNumber.getPhone());
-						appendToContactString(phoneNumber.getPhone());
+						String currentPhoneNumber = phoneNumber.getPhone();
+						currentPhoneNumber = currentPhoneNumber.replace("-"," ");
+						String formattedPhoneNumber = htmlLineFormatter.formatAsTelephoneNumber(currentPhoneNumber);
+						logger.info(formattedPhoneNumber);
+						appendToContactString(formattedPhoneNumber);
 					}
 
 				if (politicalOfficial.getUrls() != null) {
 					for (Url url : politicalOfficial.getUrls()) {
-						logger.info(url.getUrl());
-						appendToContactString("Website: " + url.getUrl());
+						String currentUrl = url.getUrl();
+						String websiteLink = htmlLineFormatter.formatAsLink(currentUrl);
+						logger.info(websiteLink);
+						appendToContactString(websiteLink);
 					}
 				}
 
 				if (politicalOfficial.getChannels() != null) {
 					for (Channel channel : politicalOfficial.getChannels()) {
-						logger.info(channel.getType() + " handle: " + channel.getId());
-						appendToContactString(channel.getType() + " handle: " + channel.getId());
+						String currentChannel = channel.getType() + " " + channel.getId();
+						String formattedChannel = htmlLineFormatter.formatAsParagraph(currentChannel);
+						logger.info(formattedChannel);
+						appendToContactString(formattedChannel);
 						}
 					}
 
 				}
-				logger.info("++++++++++++++++++++++++++++++++" + "\n");
-				appendToContactString("\n");
-
 
 			}
-			appendToContactString( "Number of officials occupying office of " + politicalOffice.getName() + " = " + countOfOfficialsPerOffice);
-			appendToContactString("--------------------------------------");
-			appendToContactString("\n");
+			appendToContactString(htmlLineFormatter.formatAsParagraph("Number of officials found for the office of " + politicalOffice.getName() + " = " + countOfOfficialsPerOffice));
 		}
-		appendToContactString("\n+++++++ " + "Found " + countOfOfficials + " political officials from " + countOfOffices + " public offices " + "+++++++");
 		setContactProfile(politicalContactProfileString);
 	}
 
 	public StringBuilder appendToContactString(String contactElement) {
-		politicalContactProfileString.append(contactElement).append("\n");
+		politicalContactProfileString.append(contactElement);
 		return politicalContactProfileString;
 	}
 
 	public void setContactProfile(StringBuilder politicalContactProfile) throws Exception{
-		PoliticalContactProfile polProfile = new PoliticalContactProfile();
 		polProfile.setContactProfile(politicalContactProfile);
 		System.out.println(polProfile.getContactProfile());
 	}
