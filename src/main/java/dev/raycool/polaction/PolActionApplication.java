@@ -43,9 +43,10 @@ public class PolActionApplication  {
 	}
 
 	@RequestMapping(value = "/default")
-	public void getData() throws Exception {
+	public String getData() throws Exception {
 		politicalContactProfileString.setLength(0);
 		consumeGoogleApi("19977");
+		return polProfile.getContactProfile().toString();
 	}
 
 	@RequestMapping(value = "/api")
@@ -118,7 +119,7 @@ public class PolActionApplication  {
 				logger.info(formattedOfficialName);
 				appendToContactString(formattedOfficialName);
 				logger.info(politicalOfficial.toString());
-				appendToContactString(politicalOfficial.toString());
+				//appendToContactString(politicalOfficial.toString());
 
 				if (politicalOfficial.getParty() != null) {
 					String currentAffiliation = politicalOfficial.getParty();
