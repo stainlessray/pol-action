@@ -24,5 +24,4 @@ The application leverages Spring Boot and these dependencies:
  Spring Web <br>
 </ol>
 
-There remains a need for testing through APi mocking. I am currently working on a new diagram for a cleaner implementation. More to come soon!
 
