@@ -4,7 +4,6 @@ import dev.raycool.polaction.PolActionApplication;
 import dev.raycool.polaction.officesresponsemodels.PoliticalOffice;
 import dev.raycool.polaction.officialsresponsemodels.*;
 import dev.raycool.polaction.service.PoliticalOfficialsResponse;
-import dev.raycool.polaction.view.HtmlLineFormatter;
 import dev.raycool.polaction.view.PoliticalContactProfile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +25,6 @@ public class GoogleCivicApiConsumer {
     private static final Logger logger = LoggerFactory.getLogger(PolActionApplication.class);
     StringBuilder politicalContactProfileString = new StringBuilder("\n");
     PoliticalContactProfile polProfile = new PoliticalContactProfile();
-    HtmlLineFormatter htmlLineFormatter = new HtmlLineFormatter();
 
     @Value("${apikey}")
     private String googleApiKey;
@@ -80,18 +78,15 @@ public class GoogleCivicApiConsumer {
             countOfOffices += 1;
             countOfOfficialsPerOffice = 0;
             String currentOffice = politicalOffice.getName();
-            String formattedOffice = htmlLineFormatter.formatAsH2Header(currentOffice);
-            logger.info(formattedOffice);
-            appendToContactString("<br>" + formattedOffice);
+            logger.info(currentOffice);
+            appendToContactString(currentOffice);
 
             for (int i = 0; i < politicalOffice.getLevels().length; i++) {
                 logger.info(politicalOffice.getLevels()[i].toString());
             }
 
             if (politicalOffice.getRoles() != null) {
-                //appendToContactString("API Roles:"); //optional
                 for (int i = 0; i < politicalOffice.getRoles().length; i++) {
-                    //appendToContactString(politicalOffice.getRoles()[i].toString()); //optional
                     logger.info(politicalOffice.getRoles()[i].getRole());
                 }
             }
@@ -104,73 +99,65 @@ public class GoogleCivicApiConsumer {
 
                 String currentOfficial = politicalOfficial.getName();
 
-                String formattedOfficialName = htmlLineFormatter.formatAsH3Header(currentOfficial);
-                logger.info(formattedOfficialName);
-                appendToContactString(formattedOfficialName);
+                logger.info(currentOfficial);
+                appendToContactString(currentOfficial);
 
                 if (politicalOfficial.getParty() != null) {
                     String currentAffiliation = politicalOfficial.getParty();
-                    String formattedAffiliation = htmlLineFormatter.formatAsParagraph(currentAffiliation);
-                    logger.info(formattedAffiliation);
-                    appendToContactString(formattedAffiliation);
+                    logger.info(currentAffiliation);
+                    appendToContactString(currentAffiliation);
                 }
 
                 if (politicalOfficial.getPhotoUrl() != null) {
                     String currentPhotoUrl = politicalOfficial.getPhotoUrl();
-                    String imageUrl = htmlLineFormatter.formatAsImage(currentPhotoUrl);
-                    logger.info("Photo: " + imageUrl);
-                    appendToContactString(imageUrl + "<br>");
+                    logger.info("Photo: " + currentPhotoUrl);
+                    appendToContactString(currentPhotoUrl);
                 }
 
                 if (politicalOfficial.getAddress() != null) {
                     for (Address address : politicalOfficial.getAddress()) {
                         String currentAddress = address.toString();
-                        String formattedAddress = htmlLineFormatter.formatAsPhysicalAddress(currentAddress);
-                        logger.info(formattedAddress);
-                        appendToContactString(formattedAddress);
+                        logger.info(currentAddress);
+                        appendToContactString(currentAddress);
                     }
                 }
 
                 if (politicalOfficial.getEmails() != null) {
                     for (Email emailAddress : politicalOfficial.getEmails()) {
                         String currentEmailAddress = emailAddress.getEmail();
-                        String formattedEmailAddress = htmlLineFormatter.formatAsEmailAddress(currentEmailAddress);
-                        logger.info(formattedEmailAddress);
-                        appendToContactString(formattedEmailAddress);
+                        logger.info(currentEmailAddress);
+                        appendToContactString(currentEmailAddress);
                     }
                 }
 
                 if (politicalOfficial.getPhones() != null) {
                     for (Phone phoneNumber : politicalOfficial.getPhones()) {
                         String currentPhoneNumber = phoneNumber.getPhone();
-                        currentPhoneNumber = currentPhoneNumber.replace("-"," ");
-                        String formattedPhoneNumber = htmlLineFormatter.formatAsTelephoneNumber(currentPhoneNumber);
-                        logger.info(formattedPhoneNumber);
-                        appendToContactString(formattedPhoneNumber);
+                        currentPhoneNumber.replace("-"," ");
+                        logger.info(currentPhoneNumber);
+                        appendToContactString(currentPhoneNumber);
                     }
 
                     if (politicalOfficial.getUrls() != null) {
                         for (Url url : politicalOfficial.getUrls()) {
                             String currentUrl = url.getUrl();
-                            String websiteLink = htmlLineFormatter.formatAsLink(currentUrl);
-                            logger.info(websiteLink);
-                            appendToContactString(websiteLink);
+                            logger.info(currentUrl);
+                            appendToContactString(currentUrl);
                         }
                     }
 
                     if (politicalOfficial.getChannels() != null) {
                         for (Channel channel : politicalOfficial.getChannels()) {
                             String currentChannel = channel.getType() + " " + channel.getId();
-                            String formattedChannel = htmlLineFormatter.formatAsParagraph(currentChannel);
-                            logger.info(formattedChannel);
-                            appendToContactString(formattedChannel);
+                            logger.info(currentChannel);
+                            appendToContactString(currentChannel);
                         }
                     }
 
                 }
 
             }
-            appendToContactString(htmlLineFormatter.formatAsParagraph("Number of officials found for the office of " + politicalOffice.getName() + " = " + countOfOfficialsPerOffice));
+            appendToContactString("Number of officials found for the office of " + politicalOffice.getName() + " = " + countOfOfficialsPerOffice);
         }
         setContactProfile(politicalContactProfileString);
     }
