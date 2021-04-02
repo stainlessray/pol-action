@@ -59,8 +59,6 @@ public class GoogleCivicApiConsumer {
 
         String formattedGoogleApiUrl = String.format("https://www.googleapis.com/civicinfo/v2/representatives/?&address=%s&includeOffices=true&key=%s", locationToSearch, googleApiKey);
 
-
-
         String htmlHead = "<head>\n" +
                 "  <meta charset=\"UTF-8\">\n" +
                 "  <meta name=\"description\" content=\"Political Reps By Location\">\n" +
@@ -77,9 +75,6 @@ public class GoogleCivicApiConsumer {
         logger.info(locationData);
         appendToContactString(htmlHead);
         appendToContactString("<br>" + locationData );
-
-
-
 
         for(PoliticalOffice politicalOffice : allOffices) {
             countOfOffices += 1;
