@@ -23,6 +23,8 @@ public class Level {
 
     @Override
     public String toString() {
-        return country ;
+        return "Level{" +
+                "country='" + country + '\'' +
+                '}';
     }
 }

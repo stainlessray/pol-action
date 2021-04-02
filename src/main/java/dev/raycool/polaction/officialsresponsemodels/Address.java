@@ -55,10 +55,11 @@ public class Address {
 
     @Override
     public String toString() {
-        StringBuilder addressString = new StringBuilder(
-                line1 + ", "
-                + city + " " + state + " "
-                + zip );
-        return addressString.toString();
+        return "Address{" +
+                "line1='" + line1 + '\'' +
+                ", city='" + city + '\'' +
+                ", state='" + state + '\'' +
+                ", zip='" + zip + '\'' +
+                '}';
     }
 }

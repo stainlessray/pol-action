@@ -20,4 +20,11 @@ public class OfficialIndex {
     public void setOfficialIndex(Integer officialIndex) {
         this.officialIndex = officialIndex;
     }
+
+    @Override
+    public String toString() {
+        return "OfficialIndex{" +
+                "officialIndex=" + officialIndex +
+                '}';
+    }
 }

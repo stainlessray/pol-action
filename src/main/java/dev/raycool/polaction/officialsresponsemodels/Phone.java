@@ -25,6 +25,8 @@ public class Phone {
 
     @Override
     public String toString() {
-        return phone;
+        return "Phone{" +
+                "phone='" + phone + '\'' +
+                '}';
     }
 }

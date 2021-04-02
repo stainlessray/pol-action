@@ -23,6 +23,8 @@ public class Role {
 
     @Override
     public String toString() {
-        return role;
+        return "Role{" +
+                "role='" + role + '\'' +
+                '}';
     }
 }

@@ -75,6 +75,14 @@ public class NormalizedInput {
 
     @Override
     public String toString() {
-        return "Search location data " + locationName + " " + line1 + " " + line2 + " " + line3 + " " + city + " " + state + " " + zip;
+        return "NormalizedInput{" +
+                "locationName='" + locationName + '\'' +
+                ", line1='" + line1 + '\'' +
+                ", line2='" + line2 + '\'' +
+                ", line3='" + line3 + '\'' +
+                ", city='" + city + '\'' +
+                ", state='" + state + '\'' +
+                ", zip='" + zip + '\'' +
+                '}';
     }
 }

@@ -1,4 +1,4 @@
-package dev.raycool.polaction.service;
+package dev.raycool.polaction.controller;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import dev.raycool.polaction.officesresponsemodels.NormalizedInput;

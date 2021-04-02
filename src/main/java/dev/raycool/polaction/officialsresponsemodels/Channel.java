@@ -30,6 +30,9 @@ public class Channel {
 
     @Override
     public String toString() {
-        return type + id;
+        return "Channel{" +
+                "type='" + type + '\'' +
+                ", id='" + id + '\'' +
+                '}';
     }
 }

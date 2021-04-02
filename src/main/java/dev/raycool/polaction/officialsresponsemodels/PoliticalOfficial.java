@@ -93,15 +93,16 @@ public class PoliticalOfficial {
 
     @Override
     public String toString() {
-        return
-                name +
-                Arrays.toString(addresses) +
-                party +
-                Arrays.toString(phones).replaceAll("[\\[\\]]", "") +
-                Arrays.toString(urls) +
-                photoUrl +
-                Arrays.toString(channels) +
-                 Arrays.toString(emails);
+        return "PoliticalOfficial{" +
+                "name='" + name + '\'' +
+                ", party='" + party + '\'' +
+                ", photoUrl='" + photoUrl + '\'' +
+                ", addresses=" + Arrays.toString(addresses) +
+                ", phones=" + Arrays.toString(phones) +
+                ", emails=" + Arrays.toString(emails) +
+                ", channels=" + Arrays.toString(channels) +
+                ", urls=" + Arrays.toString(urls) +
+                '}';
     }
 }
 
