@@ -2,6 +2,7 @@ package dev.raycool.polaction.officesresponsemodels;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.Arrays;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)

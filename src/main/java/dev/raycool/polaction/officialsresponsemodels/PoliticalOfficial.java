@@ -18,7 +18,6 @@ public class PoliticalOfficial {
     private Channel[] channels;
     private Url[] urls;
 
-
     public PoliticalOfficial() {
     }
 
@@ -48,14 +47,6 @@ public class PoliticalOfficial {
 
     public Phone[] getPhones() {
         return phones;
-    }
-
-    public StringBuilder getAllPhonesAsHtmlFormattedList() {
-        StringBuilder phoneList = new StringBuilder();
-        for (Phone phone : phones) {
-            phoneList.append(String.format("<a href = \"tel:%s\">%s</a><br>", phone, phone));
-        }
-        return phoneList;
     }
 
     public void setPhones(Phone[] phones) {
@@ -94,13 +85,19 @@ public class PoliticalOfficial {
         this.emails = emails;
     }
 
+    public String getPhonesToString() {
+        String phoneList = Arrays.toString(phones)
+                .replaceAll("[\\[\\]]", "");
+        return phoneList;
+    }
+
     @Override
     public String toString() {
         return
                 name +
                 Arrays.toString(addresses) +
                 party +
-                getAllPhonesAsHtmlFormattedList() +
+                Arrays.toString(phones).replaceAll("[\\[\\]]", "") +
                 Arrays.toString(urls) +
                 photoUrl +
                 Arrays.toString(channels) +
