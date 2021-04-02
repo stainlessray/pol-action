@@ -1,13 +1,21 @@
 package dev.raycool.polaction.service;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import dev.raycool.polaction.officesmodels.PoliticalOffice;
-import dev.raycool.polaction.officialsmodels.PoliticalOfficial;
+import dev.raycool.polaction.officesresponsemodels.NormalizedInput;
+import dev.raycool.polaction.officesresponsemodels.PoliticalOffice;
+import dev.raycool.polaction.officialsresponsemodels.PoliticalOfficial;
+
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PoliticalOfficialsResponse {
 
     private PoliticalOfficial[] officials;
+    private PoliticalOffice[] offices;
+    private NormalizedInput normalizedInput;
+
+    public NormalizedInput getNormalizedInput() { return normalizedInput; }
+    public void setNormalizedInput(NormalizedInput normalizedInput) { this.normalizedInput = normalizedInput; }
+
     public PoliticalOfficial[] getOfficials() {
         return officials;
     }
@@ -15,7 +23,6 @@ public class PoliticalOfficialsResponse {
         this.officials = officials;
     }
 
-    private PoliticalOffice[] offices;
     public PoliticalOffice[] getOffices() {
         return offices;
     }
@@ -23,3 +30,4 @@ public class PoliticalOfficialsResponse {
         this.offices = offices;
     }
 }
+

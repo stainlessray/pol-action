@@ -1,4 +1,4 @@
-package dev.raycool.polaction.officesmodels;
+package dev.raycool.polaction.officesresponsemodels;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -23,8 +23,6 @@ public class Role {
 
     @Override
     public String toString() {
-        return "Role{" +
-                "role='" + role + '\'' +
-                '}';
+        return role;
     }
 }

@@ -1,4 +1,4 @@
-package dev.raycool.polaction.officialsmodels;
+package dev.raycool.polaction.officialsresponsemodels;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -10,14 +10,13 @@ import java.util.Arrays;
 public class PoliticalOfficial {
 
     private String name;
-    private Address[] address;
     private String party;
-
-    private Phone[] phones;
-    private Url[] urls;
     private String photoUrl;
+    private Address[] addresses;
+    private Phone[] phones;
+    private Email[] emails;
     private Channel[] channels;
-    private Email email;
+    private Url[] urls;
 
     public PoliticalOfficial() {
     }
@@ -31,11 +30,11 @@ public class PoliticalOfficial {
     }
 
     public Address[] getAddress() {
-        return address;
+        return addresses;
     }
 
     public void setAddress(Address[] address) {
-        this.address = address;
+        this.addresses = address;
     }
 
     public String getParty() {
@@ -46,7 +45,9 @@ public class PoliticalOfficial {
         this.party = party;
     }
 
-    public Phone[] getPhones() { return phones; }
+    public Phone[] getPhones() {
+        return phones;
+    }
 
     public void setPhones(Phone[] phones) {
         this.phones = phones;
@@ -76,17 +77,31 @@ public class PoliticalOfficial {
         this.channels = channels;
     }
 
+    public Email[] getEmails() {
+        return emails;
+    }
+
+    public void setEmails(Email[] emails) {
+        this.emails = emails;
+    }
+
+    public String getPhonesToString() {
+        String phoneList = Arrays.toString(phones)
+                .replaceAll("[\\[\\]]", "");
+        return phoneList;
+    }
+
     @Override
     public String toString() {
-        return "PoliticalOfficial{" +
-                "name='" + name + '\'' +
-                ", address=" + Arrays.toString(address) +
-                ", party='" + party + '\'' +
-                ", phones=" + Arrays.toString(phones) +
-                ", urls=" + Arrays.toString(urls) +
-                ", photoUrl='" + photoUrl + '\'' +
-                ", channels=" + Arrays.toString(channels) +
-                ", email=" + email +
-                '}';
+        return
+                name +
+                Arrays.toString(addresses) +
+                party +
+                Arrays.toString(phones).replaceAll("[\\[\\]]", "") +
+                Arrays.toString(urls) +
+                photoUrl +
+                Arrays.toString(channels) +
+                 Arrays.toString(emails);
     }
 }
+
