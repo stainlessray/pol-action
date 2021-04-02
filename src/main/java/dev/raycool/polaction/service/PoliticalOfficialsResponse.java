@@ -16,7 +16,6 @@ public class PoliticalOfficialsResponse {
     public NormalizedInput getNormalizedInput() { return normalizedInput; }
     public void setNormalizedInput(NormalizedInput normalizedInput) { this.normalizedInput = normalizedInput; }
 
-
     public PoliticalOfficial[] getOfficials() {
         return officials;
     }
@@ -31,3 +30,4 @@ public class PoliticalOfficialsResponse {
         this.offices = offices;
     }
 }
+

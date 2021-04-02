@@ -1,7 +1,9 @@
 package dev.raycool.polaction.officialsresponsemodels;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Email {
     private String email;
@@ -23,6 +25,6 @@ public class Email {
 
     @Override
     public String toString() {
-        return "Email Address: " + email ;
+        return email ;
     }
 }

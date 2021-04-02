@@ -18,7 +18,6 @@ public class PoliticalOfficial {
     private Channel[] channels;
     private Url[] urls;
 
-
     public PoliticalOfficial() {
     }
 
@@ -48,14 +47,6 @@ public class PoliticalOfficial {
 
     public Phone[] getPhones() {
         return phones;
-    }
-
-    public StringBuilder getAllPhonesAsList() {
-        StringBuilder phoneList = new StringBuilder();
-        for (Phone phone : phones) {
-            phoneList.append(phone +"\n");
-        }
-        return phoneList;
     }
 
     public void setPhones(Phone[] phones) {
@@ -94,17 +85,23 @@ public class PoliticalOfficial {
         this.emails = emails;
     }
 
+    public String getPhonesToString() {
+        String phoneList = Arrays.toString(phones)
+                .replaceAll("[\\[\\]]", "");
+        return phoneList;
+    }
+
     @Override
     public String toString() {
-        return "PoliticalOfficial{" +
-                "name='" + name + '\'' +
-                ", address=" + Arrays.toString(addresses) +
-                ", party='" + party + '\'' +
-                ", phones=" + Arrays.toString(phones) +
-                ", urls=" + Arrays.toString(urls) +
-                ", photoUrl='" + photoUrl + '\'' +
-                ", channels=" + Arrays.toString(channels) +
-                ", emails=" + Arrays.toString(emails) +
-                '}';
+        return
+                name +
+                Arrays.toString(addresses) +
+                party +
+                Arrays.toString(phones).replaceAll("[\\[\\]]", "") +
+                Arrays.toString(urls) +
+                photoUrl +
+                Arrays.toString(channels) +
+                 Arrays.toString(emails);
     }
 }
+

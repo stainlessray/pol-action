@@ -19,7 +19,7 @@ public class HtmlLineFormatter {
     }
 
     public String formatAsEmailAddress(String emailAddress) {
-        return String.format("<address>Email: %s</address>", emailAddress);
+        return String.format("Email:<br><address>%s</address>", emailAddress);
     }
 
     public String formatAsPhysicalAddress(String physicalAddress) {
