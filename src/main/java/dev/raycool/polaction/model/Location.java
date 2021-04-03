@@ -1,46 +1,76 @@
 package dev.raycool.polaction.model;
 
+import dev.raycool.polaction.officesresponsemodels.NormalizedInput;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Location {
 
-    private String locationData;
+    private NormalizedInput searchLocation;
+    private int countOfOffices;
+    private int countOfOfficials;
     private List<PublicOffice> publicOffices = new ArrayList<>();
 
     public Location() {
     }
 
-    public Location(String locationData, List<PublicOffice> publicOffices) {
-        this.locationData = locationData;
+    public Location(NormalizedInput searchLocation, List<PublicOffice> publicOffices) {
+        this.searchLocation = searchLocation;
         this.publicOffices = publicOffices;
     }
 
-    public String getLocationData() {
-        return locationData;
+    public Integer getCountOfOffices() {
+        return countOfOffices;
     }
 
-    public void setLocationData(String locationData) {
-        this.locationData = locationData;
+    public void setCountOfOffices(Integer countOfOffices) {
+        this.countOfOffices = countOfOffices;
     }
 
-    public List<PublicOffice> getOfficeModels() {
+    public Integer getCountOfOfficials() {
+        return countOfOfficials;
+    }
+
+    public void setCountOfOfficials(Integer countOfOfficials) {
+        this.countOfOfficials = countOfOfficials;
+    }
+
+    public List<PublicOffice> getPublicOffices() {
         return publicOffices;
     }
 
-    public void setOfficeModels(List<PublicOffice> publicOfficeMembers) {
+    public void setPublicOffices(List<PublicOffice> publicOffices) {
+        this.publicOffices = publicOffices;
+    }
+
+    public NormalizedInput getSearchLocation() {
+        return searchLocation;
+    }
+
+    public void setSearchLocation(NormalizedInput searchLocation) {
+        this.searchLocation = searchLocation;
+    }
+
+    public List<PublicOffice> getOffices() {
+        return publicOffices;
+    }
+
+    public void setOffices(List<PublicOffice> publicOfficeMembers) {
         this.publicOffices = publicOfficeMembers;
     }
 
-    public void addOfficeModel(PublicOffice publicOffice) {
+    public void addOffice(PublicOffice publicOffice) {
         this.publicOffices.add(publicOffice);
     }
 
     @Override
     public String toString() {
-        return "Location{" +
-                "locationData='" + locationData + '\'' +
-                ", publicOfficeMembers=" + publicOffices +
-                '}';
+        try {
+            return new com.fasterxml.jackson.databind.ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(this);
+        } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

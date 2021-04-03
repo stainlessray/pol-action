@@ -10,6 +10,7 @@ import java.util.List;
 public class PublicOffice {
 
     private String name;
+    private int countInThisOffice;
     private List<Level> levels = new ArrayList<>();
     private List<Role> roles = new ArrayList<>();
     private List<PoliticalOfficial> officials = new ArrayList<>();
@@ -31,6 +32,14 @@ public class PublicOffice {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getCountInThisOffice() {
+        return countInThisOffice;
+    }
+
+    public void setCountInThisOffice(Integer countInThisOffice) {
+        this.countInThisOffice = countInThisOffice;
     }
 
     public List<Level> getLevels() {
@@ -71,11 +80,11 @@ public class PublicOffice {
 
     @Override
     public String toString() {
-        return "PublicOffice{" +
-                "name='" + name + '\'' +
-                ", levels=" + levels +
-                ", roles=" + roles +
-                ", officials=" + officials +
-                '}';
+        try {
+            return new com.fasterxml.jackson.databind.ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(this);
+        } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

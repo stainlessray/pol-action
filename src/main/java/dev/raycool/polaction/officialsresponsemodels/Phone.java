@@ -23,10 +23,15 @@ public class Phone {
         this.phone = phone;
     }
 
+
+
     @Override
     public String toString() {
-        return "Phone{" +
-                "phone='" + phone + '\'' +
-                '}';
+        try {
+            return new com.fasterxml.jackson.databind.ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(this);
+        } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

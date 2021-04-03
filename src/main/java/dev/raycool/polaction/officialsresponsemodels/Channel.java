@@ -28,11 +28,14 @@ public class Channel {
         this.id = id;
     }
 
+
     @Override
     public String toString() {
-        return "Channel{" +
-                "type='" + type + '\'' +
-                ", id='" + id + '\'' +
-                '}';
+        try {
+            return new com.fasterxml.jackson.databind.ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(this);
+        } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

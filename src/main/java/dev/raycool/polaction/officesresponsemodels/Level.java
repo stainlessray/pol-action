@@ -4,27 +4,32 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Level {
-    private String country;
+    private String level;
 
     public Level() {
     }
 
-    public Level(String country) {
-        this.country = country;
+    public Level(String level) {
+        this.level = level;
     }
 
     public String getLevel() {
-        return country;
+        return level;
     }
 
     public void setLevel(String level) {
-        this.country = level;
+        this.level = level;
     }
+
+
 
     @Override
     public String toString() {
-        return "Level{" +
-                "country='" + country + '\'' +
-                '}';
+        try {
+            return new com.fasterxml.jackson.databind.ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(this);
+        } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

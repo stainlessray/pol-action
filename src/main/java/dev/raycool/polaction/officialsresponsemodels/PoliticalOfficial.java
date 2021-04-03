@@ -3,8 +3,6 @@ package dev.raycool.polaction.officialsresponsemodels;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import java.util.Arrays;
-
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PoliticalOfficial {
@@ -85,24 +83,21 @@ public class PoliticalOfficial {
         this.emails = emails;
     }
 
-    public String getPhonesToString() {
+/*    public String getPhonesToString() {
         String phoneList = Arrays.toString(phones)
                 .replaceAll("[\\[\\]]", "");
         return phoneList;
-    }
+    }*/
+
 
     @Override
     public String toString() {
-        return "PoliticalOfficial{" +
-                "name='" + name + '\'' +
-                ", party='" + party + '\'' +
-                ", photoUrl='" + photoUrl + '\'' +
-                ", addresses=" + Arrays.toString(addresses) +
-                ", phones=" + Arrays.toString(phones) +
-                ", emails=" + Arrays.toString(emails) +
-                ", channels=" + Arrays.toString(channels) +
-                ", urls=" + Arrays.toString(urls) +
-                '}';
+        try {
+            return new com.fasterxml.jackson.databind.ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(this);
+        } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
 

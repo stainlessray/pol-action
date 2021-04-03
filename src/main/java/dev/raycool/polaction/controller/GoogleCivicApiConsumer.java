@@ -3,6 +3,7 @@ package dev.raycool.polaction.controller;
 import dev.raycool.polaction.PolActionApplication;
 import dev.raycool.polaction.model.Location;
 import dev.raycool.polaction.model.PublicOffice;
+import dev.raycool.polaction.officesresponsemodels.NormalizedInput;
 import dev.raycool.polaction.officesresponsemodels.PoliticalOffice;
 import dev.raycool.polaction.officialsresponsemodels.PoliticalOfficial;
 import org.slf4j.Logger;
@@ -23,8 +24,8 @@ import java.util.Objects;
 public class GoogleCivicApiConsumer {
 
     private static final Logger logger = LoggerFactory.getLogger(PolActionApplication.class);
-    Location location = new Location();
-    PublicOffice publicOffice = new PublicOffice();
+    Location location;
+    PublicOffice publicOffice;
 
     @Value("${apikey}")
     private String googleApiKey;
@@ -38,62 +39,60 @@ public class GoogleCivicApiConsumer {
     @RequestMapping(value = "/default", method = RequestMethod.GET)
     public String getData() throws Exception {
         consumeGoogleApi("19977");
+        logger.info(this.location.toString());
         return location.toString();
     }
 
     @RequestMapping(value = "/api", method = RequestMethod.GET)
     public String getData(@RequestParam String location) throws Exception {
         consumeGoogleApi(location);
+        logger.info(this.location.toString());
         return this.location.toString();
     }
 
     public void consumeGoogleApi(String locationToSearch) throws Exception {
+        location = new Location();
         int countOfOfficials = 0;
         int countOfOffices = 0;
-        int countOfOfficialsPerOffice = 0;
+        int countInThisOffice = 0;
 
-        String formattedGoogleApiUrl = String.format("https://www.googleapis.com/civicinfo/v2/representatives/?&address=%s&includeOffices=true&key=%s", locationToSearch, googleApiKey);
+        String googleCivicApiUrl = String.format("https://www.googleapis.com/civicinfo/v2/representatives/?&address=%s&includeOffices=true&key=%s", locationToSearch, googleApiKey);
 
-        ResponseEntity<PoliticalOfficialsResponse> response = restTemplate.getForEntity(formattedGoogleApiUrl, PoliticalOfficialsResponse.class);
+        ResponseEntity<PoliticalOfficialsResponse> response = restTemplate.getForEntity(googleCivicApiUrl, PoliticalOfficialsResponse.class);
         PoliticalOfficial[] allOfficials = Objects.requireNonNull(response.getBody()).getOfficials();
         PoliticalOffice[] allOffices = Objects.requireNonNull(response.getBody()).getOffices();
-        String locationData = response.getBody().getNormalizedInput().toString();
+        NormalizedInput locationData = response.getBody().getNormalizedInput();
 
-        logger.info(locationData);
-        location.setLocationData(locationData);
+        location.setSearchLocation(locationData);
 
         for(PoliticalOffice politicalOffice : allOffices) {
             publicOffice = new PublicOffice();
             countOfOffices += 1;
-            countOfOfficialsPerOffice = 0;
+            countInThisOffice = 0;
             String currentOffice = politicalOffice.getName();
             publicOffice.setName(currentOffice);
-            logger.info(publicOffice.getName());
 
             for (int i = 0; i < politicalOffice.getLevels().length; i++) {
                 publicOffice.addLevel(politicalOffice.getLevels()[i]);
-                logger.info(publicOffice.getLevels().toString());
             }
 
             if (politicalOffice.getRoles() != null) {
                 for (int i = 0; i < politicalOffice.getRoles().length; i++) {
                     publicOffice.addRole(politicalOffice.getRoles()[i]);
-                    logger.info(publicOffice.getRoles().toString());
                 }
             }
 
             for (int i = 0; i < politicalOffice.getOfficialIndices().length; i++ ) {
                 PoliticalOfficial politicalOfficial = allOfficials[politicalOffice.getOfficialIndices()[i].getOfficialIndex()];
                 publicOffice.addOfficial(politicalOfficial);
-                logger.info(publicOffice.getOfficials().toString());
                 countOfOfficials += 1;
-                countOfOfficialsPerOffice +=1;
-
+                countInThisOffice +=1;
+                publicOffice.setCountInThisOffice(countInThisOffice);
             }
-            location.addOfficeModel(publicOffice);
-            logger.info("Number of officials found for the office of " + politicalOffice.getName() + " = " + countOfOfficialsPerOffice);
-        }
-        logger.info(location.toString());
-    }
 
+            location.setCountOfOfficials(countOfOfficials);
+            location.setCountOfOffices(countOfOffices);
+            location.addOffice(publicOffice);
+        }
+    }
 }

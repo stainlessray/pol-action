@@ -16,7 +16,6 @@ public class NormalizedInput {
     private String zip = "";
 
 
-
     public String getLocationName() {
         return locationName;
     }
@@ -75,14 +74,11 @@ public class NormalizedInput {
 
     @Override
     public String toString() {
-        return "NormalizedInput{" +
-                "locationName='" + locationName + '\'' +
-                ", line1='" + line1 + '\'' +
-                ", line2='" + line2 + '\'' +
-                ", line3='" + line3 + '\'' +
-                ", city='" + city + '\'' +
-                ", state='" + state + '\'' +
-                ", zip='" + zip + '\'' +
-                '}';
+        try {
+            return new com.fasterxml.jackson.databind.ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(this);
+        } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

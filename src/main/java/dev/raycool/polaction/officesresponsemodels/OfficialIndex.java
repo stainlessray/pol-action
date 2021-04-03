@@ -21,10 +21,14 @@ public class OfficialIndex {
         this.officialIndex = officialIndex;
     }
 
+
     @Override
     public String toString() {
-        return "OfficialIndex{" +
-                "officialIndex=" + officialIndex +
-                '}';
+        try {
+            return new com.fasterxml.jackson.databind.ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(this);
+        } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

@@ -23,10 +23,14 @@ public class Email {
         this.email = email;
     }
 
+
     @Override
     public String toString() {
-        return "Email{" +
-                "email='" + email + '\'' +
-                '}';
+        try {
+            return new com.fasterxml.jackson.databind.ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(this);
+        } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

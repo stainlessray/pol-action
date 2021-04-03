@@ -3,8 +3,6 @@ package dev.raycool.polaction.officesresponsemodels;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import java.util.Arrays;
-
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PoliticalOffice {
@@ -57,12 +55,11 @@ public class PoliticalOffice {
 
     @Override
     public String toString() {
-        return "PoliticalOffice{" +
-                "name='" + name + '\'' +
-                ", divisionId='" + divisionId + '\'' +
-                ", levels=" + Arrays.toString(levels) +
-                ", roles=" + Arrays.toString(roles) +
-                ", officialIndices=" + Arrays.toString(officialIndices) +
-                '}';
+        try {
+            return new com.fasterxml.jackson.databind.ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(this);
+        } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
