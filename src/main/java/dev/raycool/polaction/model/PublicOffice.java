@@ -1,15 +1,14 @@
 package dev.raycool.polaction.model;
 
-import dev.raycool.polaction.officesresponsemodels.Level;
-import dev.raycool.polaction.officesresponsemodels.Role;
-import dev.raycool.polaction.officialsresponsemodels.PoliticalOfficial;
+import dev.raycool.polaction.officesresponse.Level;
+import dev.raycool.polaction.officesresponse.Role;
+import dev.raycool.polaction.officialsresponse.PoliticalOfficial;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PublicOffice {
-
-    private String name;
+    private String officeName;
     private int countInThisOffice;
     private List<Level> levels = new ArrayList<>();
     private List<Role> roles = new ArrayList<>();
@@ -19,19 +18,19 @@ public class PublicOffice {
     public PublicOffice() {
     }
 
-    public PublicOffice(String name, List<Level> levels, List<Role> roles, List<PoliticalOfficial> officials) {
-        this.name = name;
+    public PublicOffice(String officeName, List<Level> levels, List<Role> roles, List<PoliticalOfficial> officials) {
+        this.officeName = officeName;
         this.levels = levels;
         this.roles = roles;
         this.officials = officials;
     }
 
-    public String getName() {
-        return name;
+    public String getOfficeName() {
+        return officeName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setOfficeName(String officeName) {
+        this.officeName = officeName;
     }
 
     public Integer getCountInThisOffice() {

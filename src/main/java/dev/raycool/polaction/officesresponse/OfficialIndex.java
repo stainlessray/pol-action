@@ -1,4 +1,4 @@
-package dev.raycool.polaction.officesresponsemodels;
+package dev.raycool.polaction.officesresponse;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -20,7 +20,6 @@ public class OfficialIndex {
     public void setOfficialIndex(Integer officialIndex) {
         this.officialIndex = officialIndex;
     }
-
 
     @Override
     public String toString() {

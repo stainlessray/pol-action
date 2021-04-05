@@ -1,4 +1,4 @@
-package dev.raycool.polaction.officesresponsemodels;
+package dev.raycool.polaction.officesresponse;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PoliticalOffice {
-
     private String name;
     private String divisionId;
     private Level[] levels;

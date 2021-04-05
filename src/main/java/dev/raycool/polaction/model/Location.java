@@ -1,16 +1,16 @@
 package dev.raycool.polaction.model;
 
-import dev.raycool.polaction.officesresponsemodels.NormalizedInput;
+import dev.raycool.polaction.officesresponse.NormalizedInput;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Location {
-
     private NormalizedInput searchLocation;
     private int countOfOffices;
     private int countOfOfficials;
-    private List<PublicOffice> publicOffices = new ArrayList<>();
+    private static List<PublicOffice> publicOffices = new ArrayList<>();
+
 
     public Location() {
     }
@@ -37,7 +37,7 @@ public class Location {
     }
 
     public List<PublicOffice> getPublicOffices() {
-        return publicOffices;
+        return this.publicOffices;
     }
 
     public void setPublicOffices(List<PublicOffice> publicOffices) {
@@ -73,4 +73,6 @@ public class Location {
         }
         return null;
     }
+
+
 }

@@ -1,4 +1,4 @@
-package dev.raycool.polaction.officialsresponsemodels;
+package dev.raycool.polaction.officialsresponse;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -8,11 +8,12 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 public class Phone {
     private String phone;
 
-    public Phone(String phone) {
-        this.phone = phone;
-    }
 
     public Phone() {
+    }
+
+    public Phone(String phone) {
+        this.phone = phone;
     }
 
     public String getPhone() {
@@ -22,8 +23,6 @@ public class Phone {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-
-
 
     @Override
     public String toString() {

@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Pol-Action test thymeleaf page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+
+<body>
+<p th:text="'Search location: ' + ${locationData}" >location data</p>
+    <th:block th:each = "office : ${offices}">
+        <br><br>
+        <h2 th:text="${office.officeName}">office name</h2>
+        <p th:text="'Office occupancy: ' + ${office.countInThisOffice}">office occupancy</p>
+    <th:block th:each = "official: ${office.officials}">
+        <h3 th:text = "${official.name}">official name</h3>
+        <img th:src="${official.photoUrl!=null} ? ${official.photoUrl}:'image unavailable'" />
+        <p th:text = "${official.party}">party affiliation</p>
+        <p th:each = "phones: ${official.phones}" th:text = "${phones.phone}">phone number</p>
+        <p th:each = "emails: ${official.emails}" th:text = "${emails.email}">email address</p>
+         <th:block th:each = "urls: ${official.urls}">
+                <a th:href="${urls.url}">Website</a>
+            </th:block>
+        <th:block th:each = "addressElement: ${official.address}">
+            <p th:text = "${addressElement.line1}">address line1</p>
+            <p th:text = "${addressElement.city}">address city</p>
+            <p th:text = "${addressElement.state}">address state</p>
+            <p th:text = "${addressElement.zip}">address zip</p>
+        </th:block>
+    </th:block>
+        <br><br>
+</th:block>
+<br><br><br>
+</body>
+</html>

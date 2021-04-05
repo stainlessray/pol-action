@@ -1,4 +1,4 @@
-package dev.raycool.polaction.officialsresponsemodels;
+package dev.raycool.polaction.officialsresponse;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -11,12 +11,6 @@ public class Address {
     private String state;
     private String zip;
 
-/*    public Address(String line1, String city, String state, String zip) {
-        this.line1 = line1;
-        this.city = city;
-        this.state = state;
-        this.zip = zip;
-    }*/
 
     public Address() {
     }

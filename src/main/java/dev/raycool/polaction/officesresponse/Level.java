@@ -1,10 +1,11 @@
-package dev.raycool.polaction.officesresponsemodels;
+package dev.raycool.polaction.officesresponse;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Level {
     private String level;
+
 
     public Level() {
     }
@@ -20,8 +21,6 @@ public class Level {
     public void setLevel(String level) {
         this.level = level;
     }
-
-
 
     @Override
     public String toString() {

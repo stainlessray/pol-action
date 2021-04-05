@@ -1,4 +1,4 @@
-package dev.raycool.polaction.officesresponsemodels;
+package dev.raycool.polaction.officesresponse;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

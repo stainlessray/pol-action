@@ -1,4 +1,4 @@
-package dev.raycool.polaction.officesresponsemodels;
+package dev.raycool.polaction.officesresponse;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -74,11 +74,22 @@ public class NormalizedInput {
 
     @Override
     public String toString() {
+        return locationName + " " +
+                line1 + " " +
+                line2 + " " +
+                line3 + " " +
+                city + " " +
+                state + " " +
+                zip;
+    }
+
+    /*    @Override
+    public String toString() {
         try {
             return new com.fasterxml.jackson.databind.ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(this);
         } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
             e.printStackTrace();
         }
         return null;
-    }
+    }*/
 }

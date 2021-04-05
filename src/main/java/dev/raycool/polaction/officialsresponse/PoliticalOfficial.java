@@ -1,4 +1,4 @@
-package dev.raycool.polaction.officialsresponsemodels;
+package dev.raycool.polaction.officialsresponse;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -82,13 +82,6 @@ public class PoliticalOfficial {
     public void setEmails(Email[] emails) {
         this.emails = emails;
     }
-
-/*    public String getPhonesToString() {
-        String phoneList = Arrays.toString(phones)
-                .replaceAll("[\\[\\]]", "");
-        return phoneList;
-    }*/
-
 
     @Override
     public String toString() {
