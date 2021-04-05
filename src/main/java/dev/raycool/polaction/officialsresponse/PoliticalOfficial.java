@@ -2,6 +2,8 @@ package dev.raycool.polaction.officialsresponse;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -81,6 +83,22 @@ public class PoliticalOfficial {
 
     public void setEmails(Email[] emails) {
         this.emails = emails;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        PoliticalOfficial that = (PoliticalOfficial) o;
+
+        return new EqualsBuilder().append(name, that.name).isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37).append(name).toHashCode();
     }
 
     @Override

@@ -20,18 +20,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 public class GoogleCivicApiController {
 
     private static final Logger logger = LoggerFactory.getLogger(PolActionApplication.class);
-    Location location;
+    private static Location location;
+    private static Set<String> sessionSearchHistory = new HashSet<>();
+    private static Map<Integer, String> sessionOfficialHistory = new HashMap<>();
+
     PublicOffice publicOffice;
-    Set<String> locationHistory = new HashSet<>();
 
     @Value("${apikey}")
     private String googleApiKey;
@@ -45,10 +44,10 @@ public class GoogleCivicApiController {
     @RequestMapping(value = "/api", method = RequestMethod.GET)
     public String getData(@RequestParam String location, Model model) throws Exception {
 
-        if (locationHistory == null) {
-            locationHistory.add(location);
+        if (sessionSearchHistory == null) {
+            sessionSearchHistory.add(location);
         }
-        if (locationHistory.contains(location)) {
+        if (sessionSearchHistory.contains(location)) {
             String locationData = this.location.getSearchLocation().toString();
             model.addAttribute("locationData", locationData);
 
@@ -57,7 +56,7 @@ public class GoogleCivicApiController {
             logger.info("outputting to page");
             return "publicresponse";
         } else {
-        locationHistory.add(location);
+        sessionSearchHistory.add(location);
         logger.info("making API request");
         consumeGoogleApi(location);
 
@@ -105,15 +104,26 @@ public class GoogleCivicApiController {
 
             for (int i = 0; i < politicalOffice.getOfficialIndices().length; i++ ) {
                 PoliticalOfficial politicalOfficial = allOfficials[politicalOffice.getOfficialIndices()[i].getOfficialIndex()];
-                publicOffice.addOfficial(politicalOfficial);
-                countOfOfficials += 1;
-                countInThisOffice +=1;
-                publicOffice.setCountInThisOffice(countInThisOffice);
+
+                if (!sessionOfficialHistory.containsKey(politicalOfficial.hashCode())) {
+                    logger.info("Not present in session official history");
+                    sessionOfficialHistory.put(politicalOfficial.hashCode(), politicalOfficial.getName());
+                    publicOffice.addOfficial(politicalOfficial);
+                    countOfOfficials += 1;
+                    countInThisOffice +=1;
+                    publicOffice.setCountInThisOffice(countInThisOffice);
+                } else {
+                    logger.info("Already present in official history");
+                }
             }
 
             location.setCountOfOfficials(countOfOfficials);
             location.setCountOfOffices(countOfOffices);
-            location.addOffice(publicOffice);
+            logger.info(String.valueOf(publicOffice.getOfficials().size()));
+            if (publicOffice.getOfficials().size() > 0) {
+                location.addOffice(publicOffice);
+
+            }
         }
     }
 }
