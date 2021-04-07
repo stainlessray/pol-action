@@ -18,19 +18,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
-
 import java.util.*;
 
 @Controller
 public class GoogleCivicApiController {
-
     private static final Logger logger = LoggerFactory.getLogger(PolActionApplication.class);
-    private static Location location;
-    private static Set<String> sessionSearchHistory = new HashSet<>();
+    private Location location;
+    private Set<String> sessionSearchHistory = new HashSet<>();
     private static Map<Integer, String> sessionOfficialHistory = new HashMap<>();
-
-    PublicOffice publicOffice;
+    private List<Location> savedLocations = new ArrayList<>();
+    String locationData;
+    String locationAggregated;
 
     @Value("${apikey}")
     private String googleApiKey;
@@ -41,52 +41,88 @@ public class GoogleCivicApiController {
     @Bean
     public RestTemplate restTemplate() { return new RestTemplate(); }
 
+    /**
+     *
+     * @param lookup static object created for search session
+     * @param model the model for the template
+     * @return model to template
+     * @throws HttpClientErrorException invalid search results throw exception
+     */
     @RequestMapping(value = "/api", method = RequestMethod.GET)
-    public String getData(@RequestParam String location, Model model) throws Exception {
-
+    public String getData(@RequestParam String lookup, Model model) throws HttpClientErrorException {
         if (sessionSearchHistory == null) {
-            sessionSearchHistory.add(location);
+            sessionSearchHistory.add(lookup);
         }
-        if (sessionSearchHistory.contains(location)) {
-            String locationData = this.location.getSearchLocation().toString();
-            model.addAttribute("locationData", locationData);
-
-            List<PublicOffice> offices = this.location.getOffices();
-            model.addAttribute("offices", offices);
+        if (sessionSearchHistory.contains(lookup))
+        {
+            createModel(model);
             logger.info("outputting to page");
             return "publicresponse";
-        } else {
-        sessionSearchHistory.add(location);
-        logger.info("making API request");
-        consumeGoogleApi(location);
+        } else
+            {
+                sessionSearchHistory.add(lookup);
+                logger.info("making API request");
+                consumeGoogleCivicApi(lookup);
+                createModel(model);
+                logger.info("outputting to page");}
+                return "publicresponse";
+            }
 
-        String locationData = this.location.getSearchLocation().toString();
-        model.addAttribute("locationData", locationData);
-
-        List<PublicOffice> offices = this.location.getOffices();
-        model.addAttribute("offices", offices);
-        logger.info("outputting to page");}
-        return "publicresponse";
+    @RequestMapping(value = "/delete")
+    public String removeData(@RequestParam String delete) {
+        startNewSession();
+        return "index";
     }
 
-    public void consumeGoogleApi(String locationToSearch) throws Exception {
-        location = null;
+    public void startNewSession() {
+        logger.info("cleaning...");
+        if (location != null) {
+            sessionSearchHistory.clear();
+            sessionOfficialHistory.clear();
+            location.clearAll();
+            locationData = "";
+            locationAggregated = "";
+        }
+    }
+
+    public Model createModel(Model model) {
+        locationData = this.location.getSearchLocation().toString();
+        locationAggregated = sessionSearchHistory.toString();
+        List<PublicOffice> offices = this.location.getOffices();
+
+        model.addAttribute("locationData", locationData);
+        model.addAttribute("locationAggregated", locationAggregated);
+        model.addAttribute("offices", offices);
+        return model;
+    }
+
+    public void consumeGoogleCivicApi(String locationToSearch) throws HttpClientErrorException {
         location = new Location();
+
+        try {
+            String googleCivicApiUrl = String.format("https://www.googleapis.com/civicinfo/v2/representatives/?&address=%s&includeOffices=true&key=%s", locationToSearch, googleApiKey);
+            ResponseEntity<PoliticalOfficialsResponse> response = restTemplate.getForEntity(googleCivicApiUrl, PoliticalOfficialsResponse.class);
+
+            PoliticalOfficial[] allOfficials = Objects.requireNonNull(response.getBody()).getOfficials();
+            PoliticalOffice[] allOffices = Objects.requireNonNull(response.getBody()).getOffices();
+
+            NormalizedInput locationData = response.getBody().getNormalizedInput();
+            location.setSearchLocation(locationData);
+
+            parseApiResults(allOfficials, allOffices);
+        }
+        catch(Exception e) {
+            logger.info("There was an error when trying to query the API. See the trace for the issue stack", e);
+        }
+    }
+
+    private void parseApiResults(PoliticalOfficial[] allOfficials, PoliticalOffice[] allOffices) {
         int countOfOfficials = 0;
         int countOfOffices = 0;
         int countInThisOffice = 0;
 
-        String googleCivicApiUrl = String.format("https://www.googleapis.com/civicinfo/v2/representatives/?&address=%s&includeOffices=true&key=%s", locationToSearch, googleApiKey);
-        ResponseEntity<PoliticalOfficialsResponse> response = restTemplate.getForEntity(googleCivicApiUrl, PoliticalOfficialsResponse.class);
-
-        PoliticalOfficial[] allOfficials = Objects.requireNonNull(response.getBody()).getOfficials();
-        PoliticalOffice[] allOffices = Objects.requireNonNull(response.getBody()).getOffices();
-
-        NormalizedInput locationData = response.getBody().getNormalizedInput();
-        location.setSearchLocation(locationData);
-
         for(PoliticalOffice politicalOffice : allOffices) {
-            publicOffice = new PublicOffice();
+            PublicOffice publicOffice = new PublicOffice();
             countOfOffices += 1;
             countInThisOffice = 0;
             String currentOffice = politicalOffice.getName();
@@ -104,9 +140,8 @@ public class GoogleCivicApiController {
 
             for (int i = 0; i < politicalOffice.getOfficialIndices().length; i++ ) {
                 PoliticalOfficial politicalOfficial = allOfficials[politicalOffice.getOfficialIndices()[i].getOfficialIndex()];
-
                 if (!sessionOfficialHistory.containsKey(politicalOfficial.hashCode())) {
-                    logger.info("Not present in session official history");
+                    //logger.info("Not present in session official history");
                     sessionOfficialHistory.put(politicalOfficial.hashCode(), politicalOfficial.getName());
                     publicOffice.addOfficial(politicalOfficial);
                     countOfOfficials += 1;
@@ -119,11 +154,10 @@ public class GoogleCivicApiController {
 
             location.setCountOfOfficials(countOfOfficials);
             location.setCountOfOffices(countOfOffices);
-            logger.info(String.valueOf(publicOffice.getOfficials().size()));
             if (publicOffice.getOfficials().size() > 0) {
                 location.addOffice(publicOffice);
-
             }
         }
+        savedLocations.add(location);
     }
 }

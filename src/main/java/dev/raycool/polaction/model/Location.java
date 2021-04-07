@@ -20,6 +20,13 @@ public class Location {
         this.publicOffices = publicOffices;
     }
 
+    public void clearAll() {
+        searchLocation = null;
+        countOfOffices = 0;
+        countOfOfficials = 0;
+        publicOffices.clear();
+    }
+
     public Integer getCountOfOffices() {
         return countOfOffices;
     }
