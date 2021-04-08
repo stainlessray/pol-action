@@ -1,49 +1,54 @@
 <!DOCTYPE HTML>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Pol-Action Public Official Search Tool</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link href="/static/css/main.css" rel="stylesheet" >
-
+    <link th:href="@{css/publicresponse.css}" rel="stylesheet" />
 </head>
 
 <body>
 
-<p th:text = "'All locations searched: ' + ${locationAggregated}">aggregated locations</p>
+
+<div class="meta1">
+<form th:action="@{/delete}">
+    <p th:text = "'Warning: This will delete all prior searches'"></p>
+    <div class="center">
+    <input type="submit" th:name="delete" value="Delete" />
+    </div>
+</form>
+</div>
+
+<div class="center">
+<p th:text="'Current search location: ' + ${locationData}" >location data</p>
 <form th:action="@{/api}">
-    <p th:text = "'Adding another location will append the result to the last search'"></p>
+    <p th:text = "'All locations searched: ' + ${locationAggregated}">aggregated locations</p>
     <input type="text" th:name="lookup"/>
     <input type="submit"/>
+    <p th:text = "'Adding another location will append the result to the last search'"></p>
 
 </form>
-<form th:action="@{/delete}">
-    <p th:text = "'Warning: This Delete will delete all prior searches'"></p>
-    <input type="submit" th:name="delete" value="Delete" />
-</form>
 
-<p th:text="'Search location: ' + ${locationData}" >location data</p>
 
-<hr th:class="headerline"/>
     <th:block th:each = "office : ${offices}">
-        <br><br>
         <h2 th:text="${office.officeName}">office name</h2>
         <p th:text="'Office occupancy: ' + ${office.countInThisOffice}">office occupancy</p>
-    <th:block th:each = "official: ${office.officials}">
+
+        <th:block th:each = "official: ${office.officials}">
         <h3 th:text = "${official.name}">official name</h3>
+        <hr th:class="headerline" style="height:9px; background-color: #F6676A; border-color: red;"/>
         <img th:src="${official.photoUrl}" />
         <p th:text = "${official.party}">party affiliation</p>
         <p th:each = "phones: ${official.phones}" th:text = "${phones.phone}">phone number</p>
         <p th:each = "emails: ${official.emails}" th:text = "${emails.email}">email address</p>
-         <th:block th:each = "urls: ${official.urls}">
-                <a th:href="${urls.url}">Website</a>
-         </th:block>
-        <th:block th:each = "addressElement: ${official.address}">
-            <p th:text = "${addressElement.line1}">address line1</p>
-            <p th:text = "${addressElement.city}">address city</p>
-            <p th:text = "${addressElement.state}">address state</p>
-            <p th:text = "${addressElement.zip}">address zip</p>
+        <a th:each = "urls: ${official.urls}" th:href="${urls.url}">Website</a>
+        <p th:each = "addressElement: ${official.address}" th:text = "${addressElement.line1} +  ' ' + ${addressElement.city} + ' ' + ${addressElement.state} + ', ' + ${addressElement.zip}">address</p>
+
+        <th:block th:each = "channels: ${official.channels}">
+            <p th:text = "${channels.type} + ' ' + ${channels.id}">social media channel</p>
         </th:block>
+
         <hr class="dividerline"/>
     </th:block>
         <br><br>
@@ -54,5 +59,6 @@
     <input type="text" th:name="lookup"/>
     <input type="submit"/>
 </form>
+</div>
 </body>
 </html>

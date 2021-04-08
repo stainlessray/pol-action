@@ -15,11 +15,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+
 import java.util.*;
 
 @Controller
@@ -48,6 +50,7 @@ public class GoogleCivicApiController {
      * @return model to template
      * @throws HttpClientErrorException invalid search results throw exception
      */
+    @CrossOrigin
     @RequestMapping(value = "/api", method = RequestMethod.GET)
     public String getData(@RequestParam String lookup, Model model) throws HttpClientErrorException {
         if (sessionSearchHistory == null) {
@@ -74,17 +77,6 @@ public class GoogleCivicApiController {
         return "index";
     }
 
-    public void startNewSession() {
-        logger.info("cleaning...");
-        if (location != null) {
-            sessionSearchHistory.clear();
-            sessionOfficialHistory.clear();
-            location.clearAll();
-            locationData = "";
-            locationAggregated = "";
-        }
-    }
-
     public Model createModel(Model model) {
         locationData = this.location.getSearchLocation().toString();
         locationAggregated = sessionSearchHistory.toString();
@@ -94,6 +86,17 @@ public class GoogleCivicApiController {
         model.addAttribute("locationAggregated", locationAggregated);
         model.addAttribute("offices", offices);
         return model;
+    }
+
+    public void startNewSession() {
+        logger.info("cleaning...");
+        if (location != null) {
+            sessionSearchHistory.clear();
+            sessionOfficialHistory.clear();
+            location.clearAll();
+            locationData = "";
+            locationAggregated = "";
+        }
     }
 
     public void consumeGoogleCivicApi(String locationToSearch) throws HttpClientErrorException {
@@ -141,7 +144,6 @@ public class GoogleCivicApiController {
             for (int i = 0; i < politicalOffice.getOfficialIndices().length; i++ ) {
                 PoliticalOfficial politicalOfficial = allOfficials[politicalOffice.getOfficialIndices()[i].getOfficialIndex()];
                 if (!sessionOfficialHistory.containsKey(politicalOfficial.hashCode())) {
-                    //logger.info("Not present in session official history");
                     sessionOfficialHistory.put(politicalOfficial.hashCode(), politicalOfficial.getName());
                     publicOffice.addOfficial(politicalOfficial);
                     countOfOfficials += 1;
@@ -159,5 +161,6 @@ public class GoogleCivicApiController {
             }
         }
         savedLocations.add(location);
+        logger.info(location.toString());
     }
 }
