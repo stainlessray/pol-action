@@ -10,8 +10,7 @@
 
 <body>
 
-
-<div class="meta1">
+<div class="alert">
 <form th:action="@{/delete}">
     <p th:text = "'Warning: This will delete all prior searches'"></p>
     <div class="center">
@@ -20,45 +19,48 @@
 </form>
 </div>
 
-<div class="center">
+<div class="search">
 <p th:text="'Current search location: ' + ${locationData}" >location data</p>
 <form th:action="@{/api}">
     <p th:text = "'All locations searched: ' + ${locationAggregated}">aggregated locations</p>
     <input type="text" th:name="lookup"/>
     <input type="submit"/>
     <p th:text = "'Adding another location will append the result to the last search'"></p>
-
 </form>
+</div>
 
 
-    <th:block th:each = "office : ${offices}">
-        <h2 th:text="${office.officeName}">office name</h2>
-        <p th:text="'Office occupancy: ' + ${office.countInThisOffice}">office occupancy</p>
+<th:block th:each = "office : ${offices}">
+        <h2 class="office" th:text="${office.officeName}">office name</h2>
+        <p class="occupancy" th:text="'Office occupancy: ' + ${office.countInThisOffice}">office occupancy</p>
 
+    <div class="officialcard">
         <th:block th:each = "official: ${office.officials}">
-        <h3 th:text = "${official.name}">official name</h3>
-        <hr th:class="headerline" style="height:9px; background-color: #F6676A; border-color: red;"/>
+        <hr th:class="headerline" style="height:9px; background-color: #B22234; border-color: red;"/>
         <img th:src="${official.photoUrl}" />
+            <h3 th:text = "${official.name}">official name</h3>
         <p th:text = "${official.party}">party affiliation</p>
         <p th:each = "phones: ${official.phones}" th:text = "${phones.phone}">phone number</p>
         <p th:each = "emails: ${official.emails}" th:text = "${emails.email}">email address</p>
         <a th:each = "urls: ${official.urls}" th:href="${urls.url}">Website</a>
         <p th:each = "addressElement: ${official.address}" th:text = "${addressElement.line1} +  ' ' + ${addressElement.city} + ' ' + ${addressElement.state} + ', ' + ${addressElement.zip}">address</p>
-
         <th:block th:each = "channels: ${official.channels}">
             <p th:text = "${channels.type} + ' ' + ${channels.id}">social media channel</p>
         </th:block>
-
         <hr class="dividerline"/>
+            <br>
     </th:block>
+    </div>
         <br><br>
 </th:block>
+
+
+
 <br><br><br>
 <form th:action="@{/api}">
     <p th:text = "'Adding another location will append the result to the last search'"></p>
     <input type="text" th:name="lookup"/>
     <input type="submit"/>
 </form>
-</div>
 </body>
 </html>

@@ -1,28 +1,69 @@
 
-body {
-    font-family: sans-serif;
-}
 
-.center {
+
+.alert {
+    background-color: #FFFFCC;
+    padding: 10px;
     width: 95%;
     margin: auto;
     text-align: center;
 }
 
-p {
+.search {
+    padding: 10px;
+    width: 95%;
+    margin: auto;
     text-align: center;
 }
 
-.meta1 {
-    background-color: #FFFFCC;
+.office {
     padding: 10px;
+    width: 95%;
+    margin: auto;
+    background-color: #3C3B6E;
+    border-radius: 10px 10px 0px 0px;
+    color: #C0C0C0;
+    padding: 10px;
+    box-shadow: 2px 7px 10px #ededed;
+
 }
 
-h2 {
-    background-color: #D1E0EC;
-    padding: 24px;
-    border-radius: 20;
+.occupancy {
+    padding: 10px;
+    width: 95%;
+    margin: auto;
+    background-color: #3C3B6E;
+    border-radius: 0px 0px 0px 0px;
+    color: #C0C0C0;
+    padding: 10px;
+
 }
+
+.officialcard {
+    font-family: sans-serif;
+    padding: 10px;
+    width: 95%;
+    margin: auto;
+    text-align: center;
+    background-color: #FFFFFF;
+    border-radius: 0px 0px 10px 10px;
+    padding: 10px;
+    box-shadow: 3px 10px 10px #ededed;
+}
+
+body {
+    background-color: #F8F8FF;
+}
+
+img {
+  width: 48%;
+  height: auto;
+  background-size: contain;
+}
+
+
+
+
 
 
 
