@@ -5,17 +5,19 @@
     <title>Pol-Action index page</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link th:href="@{css/publicresponse.css}" rel="stylesheet" />
+    <link th:href="@{css/index.css}" rel="stylesheet" />
 </head>
 
 <body>
 <div class="center">
-<h1>Pol-Action</h1>
+<h1>PolAction</h1>
 <form th:action="@{/api}">
     <p th:text = "'Enter a location to search for'"></p>
     <input type="text" th:name="lookup"/>
     <input type="submit"/>
 </form>
 </div>
+
+
 </body>
 </html>

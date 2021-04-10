@@ -31,8 +31,8 @@ public class GoogleCivicApiController {
     private Set<String> sessionSearchHistory = new HashSet<>();
     private static Map<Integer, String> sessionOfficialHistory = new HashMap<>();
     private List<Location> savedLocations = new ArrayList<>();
-    String locationData;
-    String locationAggregated;
+    private String locationData;
+    private String locationAggregated;
 
     @Value("${apikey}")
     private String googleApiKey;
@@ -41,35 +41,35 @@ public class GoogleCivicApiController {
     RestTemplate restTemplate;
 
     @Bean
-    public RestTemplate restTemplate() { return new RestTemplate(); }
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
 
     /**
-     *
      * @param lookup static object created for search session
-     * @param model the model for the template
+     * @param model  the model for the template
      * @return model to template
      * @throws HttpClientErrorException invalid search results throw exception
      */
     @CrossOrigin
     @RequestMapping(value = "/api", method = RequestMethod.GET)
     public String getData(@RequestParam String lookup, Model model) throws HttpClientErrorException {
-        if (sessionSearchHistory == null) {
+        if ( sessionSearchHistory == null ) {
             sessionSearchHistory.add(lookup);
         }
-        if (sessionSearchHistory.contains(lookup))
-        {
+        if ( sessionSearchHistory.contains(lookup) ) {
             createModel(model);
             logger.info("outputting to page");
             return "publicresponse";
-        } else
-            {
-                sessionSearchHistory.add(lookup);
-                logger.info("making API request");
-                consumeGoogleCivicApi(lookup);
-                createModel(model);
-                logger.info("outputting to page");}
-                return "publicresponse";
-            }
+        } else {
+            sessionSearchHistory.add(lookup);
+            logger.info("making API request");
+            consumeGoogleCivicApi(lookup);
+            createModel(model);
+            logger.info("outputting to page");
+        }
+        return "publicresponse";
+    }
 
     @RequestMapping(value = "/delete")
     public String removeData(@RequestParam String delete) {
@@ -90,7 +90,7 @@ public class GoogleCivicApiController {
 
     public void startNewSession() {
         logger.info("cleaning...");
-        if (location != null) {
+        if ( location != null ) {
             sessionSearchHistory.clear();
             sessionOfficialHistory.clear();
             location.clearAll();
@@ -112,19 +112,18 @@ public class GoogleCivicApiController {
             NormalizedInput locationData = response.getBody().getNormalizedInput();
             location.setSearchLocation(locationData);
 
-            parseApiResults(allOfficials, allOffices);
-        }
-        catch(Exception e) {
+            parseApiResponse(allOfficials, allOffices);
+        } catch (Exception e) {
             logger.info("There was an error when trying to query the API. See the trace for the issue stack", e);
         }
     }
 
-    private void parseApiResults(PoliticalOfficial[] allOfficials, PoliticalOffice[] allOffices) {
+    private void parseApiResponse(PoliticalOfficial[] allOfficials, PoliticalOffice[] allOffices) {
         int countOfOfficials = 0;
         int countOfOffices = 0;
         int countInThisOffice = 0;
 
-        for(PoliticalOffice politicalOffice : allOffices) {
+        for (PoliticalOffice politicalOffice : allOffices) {
             PublicOffice publicOffice = new PublicOffice();
             countOfOffices += 1;
             countInThisOffice = 0;
@@ -135,19 +134,19 @@ public class GoogleCivicApiController {
                 publicOffice.addLevel(politicalOffice.getLevels()[i]);
             }
 
-            if (politicalOffice.getRoles() != null) {
+            if ( politicalOffice.getRoles() != null ) {
                 for (int i = 0; i < politicalOffice.getRoles().length; i++) {
                     publicOffice.addRole(politicalOffice.getRoles()[i]);
                 }
             }
 
-            for (int i = 0; i < politicalOffice.getOfficialIndices().length; i++ ) {
+            for (int i = 0; i < politicalOffice.getOfficialIndices().length; i++) {
                 PoliticalOfficial politicalOfficial = allOfficials[politicalOffice.getOfficialIndices()[i].getOfficialIndex()];
-                if (!sessionOfficialHistory.containsKey(politicalOfficial.hashCode())) {
+                if ( !sessionOfficialHistory.containsKey(politicalOfficial.hashCode()) ) {
                     sessionOfficialHistory.put(politicalOfficial.hashCode(), politicalOfficial.getName());
                     publicOffice.addOfficial(politicalOfficial);
                     countOfOfficials += 1;
-                    countInThisOffice +=1;
+                    countInThisOffice += 1;
                     publicOffice.setCountInThisOffice(countInThisOffice);
                 } else {
                     logger.info("Already present in official history");
@@ -156,7 +155,7 @@ public class GoogleCivicApiController {
 
             location.setCountOfOfficials(countOfOfficials);
             location.setCountOfOffices(countOfOffices);
-            if (publicOffice.getOfficials().size() > 0) {
+            if ( publicOffice.getOfficials().size() > 0 ) {
                 location.addOffice(publicOffice);
             }
         }

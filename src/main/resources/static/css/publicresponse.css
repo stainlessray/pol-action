@@ -1,62 +1,57 @@
 
-
+body {
+    background-color: #F8F8FF;
+    width: 85%;
+    margin: auto;
+}
 
 .alert {
-    background-color: #FFFFCC;
-    padding: 10px;
-    width: 95%;
+    padding: 5px;
+    background-color: #B22234;
     margin: auto;
     text-align: center;
+    border-radius: 10px 10px 0px 0px;
+    box-shadow: 5px 0px 10px #ededed;
 }
 
 .search {
     padding: 10px;
-    width: 95%;
     margin: auto;
     text-align: center;
+    border-radius: 0px 0px 10px 10px;
+    box-shadow: 5px 10px 10px #ededed;
+    background-color: #FFFFFF;
 }
 
 .office {
     padding: 10px;
-    width: 95%;
     margin: auto;
     background-color: #3C3B6E;
     border-radius: 10px 10px 0px 0px;
     color: #C0C0C0;
-    padding: 10px;
-    box-shadow: 2px 7px 10px #ededed;
-
+    box-shadow: 5px 10px 10px #ededed;
 }
 
 .occupancy {
     padding: 10px;
-    width: 95%;
     margin: auto;
     background-color: #3C3B6E;
     border-radius: 0px 0px 0px 0px;
     color: #C0C0C0;
-    padding: 10px;
-
 }
 
 .officialcard {
     font-family: sans-serif;
     padding: 10px;
-    width: 95%;
     margin: auto;
     text-align: center;
     background-color: #FFFFFF;
     border-radius: 0px 0px 10px 10px;
-    padding: 10px;
-    box-shadow: 3px 10px 10px #ededed;
-}
-
-body {
-    background-color: #F8F8FF;
+    box-shadow: 5px 10px 10px #ededed;
 }
 
 img {
-  width: 48%;
+  width: 144px;
   height: auto;
   background-size: contain;
 }
