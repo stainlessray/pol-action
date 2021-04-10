@@ -79,7 +79,7 @@ public class GoogleCivicApiController {
 
     public Model createModel(Model model) {
         locationData = this.location.getSearchLocation().toString();
-        locationAggregated = sessionSearchHistory.toString();
+        locationAggregated = sessionSearchHistory.toString().replace("[", "").replace("]", "");
         List<PublicOffice> offices = this.location.getOffices();
 
         model.addAttribute("locationData", locationData);
