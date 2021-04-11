@@ -35,8 +35,9 @@
         <img th:src="${official.photoUrl}" /><h3 th:text = "${official.name}">official name</h3>
         <p th:text = "${official.party}">party affiliation</p>
         <p th:each = "phones: ${official.phones}" th:text = "${phones.phone}">phone number</p>
-        <p th:each = "emails: ${official.emails}" th:text = "${emails.email}">email address</p>
-        <a th:each = "urls: ${official.urls}" th:href="${urls.url}">Website</a>
+        <a th:each = "emails: ${official.emails}" th:href="'mailto:' + ${emails.email}">Send Email</a>
+            <br><br>
+        <a th:each = "urls: ${official.urls}" th:href="${urls.url}">Visit Website</a>
             <br><br>
         <address th:each = "addressElement: ${official.address}" th:text = "${addressElement.line1} +  ' ' + ${addressElement.city} + ' ' + ${addressElement.state} + ' ' + ${addressElement.zip}">address</address>
             <th:block th:each = "channels: ${official.channels}">
