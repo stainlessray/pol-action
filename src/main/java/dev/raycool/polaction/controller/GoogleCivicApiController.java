@@ -15,7 +15,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -51,7 +50,7 @@ public class GoogleCivicApiController {
      * @return model to template
      * @throws HttpClientErrorException invalid search results throw exception
      */
-    @CrossOrigin(origins = "http://polaction-env.eba-e2zxwwme.us-east-2.elasticbeanstalk.com:5000")
+
     @RequestMapping(value = "/api", method = RequestMethod.GET)
     public String getData(@RequestParam String lookup, Model model) throws HttpClientErrorException {
 
