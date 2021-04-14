@@ -11,3 +11,44 @@ body {
     text-align: center;
 }
 
+
+
+.collapsible {
+  background-color: #777;
+  color: white;
+  cursor: pointer;
+  padding: 10px;
+  width: 40%;
+  border: none;
+  text-align: center;
+  outline: none;
+  font-size: 13px;
+
+}
+
+.active, .collapsible:hover {
+  background-color: #555;
+}
+
+.collapsible:after {
+  content: '\002B';
+  color: white;
+  font-weight: bold;
+  float: right;
+}
+
+.active:after {
+  content: "\2212";
+}
+
+.content {
+  padding: 0 10px;
+  max-height: 0;
+  width: 40%;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  background-color: #f1f1f1;
+  margin: auto;
+  border-radius: 10px 10px 10px 10px;
+}
+

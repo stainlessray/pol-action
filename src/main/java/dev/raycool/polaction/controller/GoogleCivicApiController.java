@@ -51,9 +51,10 @@ public class GoogleCivicApiController {
      * @return model to template
      * @throws HttpClientErrorException invalid search results throw exception
      */
-    @CrossOrigin
+    @CrossOrigin(origins = "http://polaction-env.eba-e2zxwwme.us-east-2.elasticbeanstalk.com:5000")
     @RequestMapping(value = "/api", method = RequestMethod.GET)
     public String getData(@RequestParam String lookup, Model model) throws HttpClientErrorException {
+
         if ( sessionSearchHistory == null ) {
             sessionSearchHistory.add(lookup);
         }
@@ -74,7 +75,7 @@ public class GoogleCivicApiController {
     @RequestMapping(value = "/delete")
     public String removeData(@RequestParam String delete) {
         startNewSession();
-        return "index";
+        return "redirect:/";
     }
 
     public Model createModel(Model model) {
