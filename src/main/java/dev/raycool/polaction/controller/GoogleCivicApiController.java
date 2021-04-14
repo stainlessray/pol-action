@@ -1,9 +1,9 @@
 package dev.raycool.polaction.controller;
 
 import dev.raycool.polaction.PolActionApplication;
-import dev.raycool.polaction.view.models.Location;
-import dev.raycool.polaction.view.models.PoliticalOfficialsResponse;
-import dev.raycool.polaction.view.models.PublicOffice;
+import dev.raycool.polaction.api.shared.dto.LocationDto;
+import dev.raycool.polaction.api.shared.dto.PoliticalOfficialsDto;
+import dev.raycool.polaction.api.shared.dto.PublicOfficeDto;
 import dev.raycool.polaction.api.offices.model.response.NormalizedInput;
 import dev.raycool.polaction.api.offices.model.response.PoliticalOffice;
 import dev.raycool.polaction.api.officials.model.response.PoliticalOfficial;
@@ -26,10 +26,10 @@ import java.util.*;
 @Controller
 public class GoogleCivicApiController {
     private static final Logger logger = LoggerFactory.getLogger(PolActionApplication.class);
-    private Location location;
+    private LocationDto locationDto;
     private Set<String> sessionSearchHistory = new HashSet<>();
     private static Map<Integer, String> sessionOfficialHistory = new HashMap<>();
-    private List<Location> savedLocations = new ArrayList<>();
+    private List<LocationDto> savedLocationDtos = new ArrayList<>();
     private String locationData;
     private String locationAggregated;
 
@@ -78,9 +78,9 @@ public class GoogleCivicApiController {
     }
 
     public Model createModel(Model model) {
-        locationData = this.location.getSearchLocation().toString();
+        locationData = this.locationDto.getSearchLocation().toString();
         locationAggregated = sessionSearchHistory.toString().replace("[", "").replace("]", "");
-        List<PublicOffice> offices = this.location.getOffices();
+        List<PublicOfficeDto> offices = this.locationDto.getOffices();
 
         model.addAttribute("locationData", locationData);
         model.addAttribute("locationAggregated", locationAggregated);
@@ -90,27 +90,27 @@ public class GoogleCivicApiController {
 
     public void startNewSession() {
         logger.info("cleaning...");
-        if ( location != null ) {
+        if ( locationDto != null ) {
             sessionSearchHistory.clear();
             sessionOfficialHistory.clear();
-            location.clearAll();
+            locationDto.clearAll();
             locationData = "";
             locationAggregated = "";
         }
     }
 
     public void consumeGoogleCivicApi(String locationToSearch) throws HttpClientErrorException {
-        location = new Location();
+        locationDto = new LocationDto();
 
         try {
             String googleCivicApiUrl = String.format("https://www.googleapis.com/civicinfo/v2/representatives/?&address=%s&includeOffices=true&key=%s", locationToSearch, googleApiKey);
-            ResponseEntity<PoliticalOfficialsResponse> response = restTemplate.getForEntity(googleCivicApiUrl, PoliticalOfficialsResponse.class);
+            ResponseEntity<PoliticalOfficialsDto> response = restTemplate.getForEntity(googleCivicApiUrl, PoliticalOfficialsDto.class);
 
             PoliticalOfficial[] allOfficials = Objects.requireNonNull(response.getBody()).getOfficials();
             PoliticalOffice[] allOffices = Objects.requireNonNull(response.getBody()).getOffices();
 
             NormalizedInput locationData = response.getBody().getNormalizedInput();
-            location.setSearchLocation(locationData);
+            locationDto.setSearchLocation(locationData);
 
             parseApiResponse(allOfficials, allOffices);
         } catch (Exception e) {
@@ -124,19 +124,19 @@ public class GoogleCivicApiController {
         int countInThisOffice = 0;
 
         for (PoliticalOffice politicalOffice : allOffices) {
-            PublicOffice publicOffice = new PublicOffice();
+            PublicOfficeDto publicOfficeDto = new PublicOfficeDto();
             countOfOffices += 1;
             countInThisOffice = 0;
             String currentOffice = politicalOffice.getName();
-            publicOffice.setOfficeName(currentOffice);
+            publicOfficeDto.setOfficeName(currentOffice);
 
             for (int i = 0; i < politicalOffice.getLevels().length; i++) {
-                publicOffice.addLevel(politicalOffice.getLevels()[i]);
+                publicOfficeDto.addLevel(politicalOffice.getLevels()[i]);
             }
 
             if ( politicalOffice.getRoles() != null ) {
                 for (int i = 0; i < politicalOffice.getRoles().length; i++) {
-                    publicOffice.addRole(politicalOffice.getRoles()[i]);
+                    publicOfficeDto.addRole(politicalOffice.getRoles()[i]);
                 }
             }
 
@@ -144,22 +144,22 @@ public class GoogleCivicApiController {
                 PoliticalOfficial politicalOfficial = allOfficials[politicalOffice.getOfficialIndices()[i].getOfficialIndex()];
                 if ( !sessionOfficialHistory.containsKey(politicalOfficial.hashCode()) ) {
                     sessionOfficialHistory.put(politicalOfficial.hashCode(), politicalOfficial.getName());
-                    publicOffice.addOfficial(politicalOfficial);
+                    publicOfficeDto.addOfficial(politicalOfficial);
                     countOfOfficials += 1;
                     countInThisOffice += 1;
-                    publicOffice.setCountInThisOffice(countInThisOffice);
+                    publicOfficeDto.setCountInThisOffice(countInThisOffice);
                 } else {
                     logger.info("Already present in official history");
                 }
             }
 
-            location.setCountOfOfficials(countOfOfficials);
-            location.setCountOfOffices(countOfOffices);
-            if ( publicOffice.getOfficials().size() > 0 ) {
-                location.addOffice(publicOffice);
+            locationDto.setCountOfOfficials(countOfOfficials);
+            locationDto.setCountOfOffices(countOfOffices);
+            if ( publicOfficeDto.getOfficials().size() > 0 ) {
+                locationDto.addOffice(publicOfficeDto);
             }
         }
-        savedLocations.add(location);
-        logger.info(location.toString());
+        savedLocationDtos.add(locationDto);
+        logger.info(locationDto.toString());
     }
 }

@@ -1,4 +1,4 @@
-package dev.raycool.polaction.view.models;
+package dev.raycool.polaction.api.shared.dto;
 
 import dev.raycool.polaction.api.offices.model.response.Level;
 import dev.raycool.polaction.api.offices.model.response.Role;
@@ -7,7 +7,7 @@ import dev.raycool.polaction.api.officials.model.response.PoliticalOfficial;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PublicOffice {
+public class PublicOfficeDto {
     private String officeName;
     private int countInThisOffice;
     private List<Level> levels = new ArrayList<>();
@@ -15,10 +15,10 @@ public class PublicOffice {
     private List<PoliticalOfficial> officials = new ArrayList<>();
 
 
-    public PublicOffice() {
+    public PublicOfficeDto() {
     }
 
-    public PublicOffice(String officeName, List<Level> levels, List<Role> roles, List<PoliticalOfficial> officials) {
+    public PublicOfficeDto(String officeName, List<Level> levels, List<Role> roles, List<PoliticalOfficial> officials) {
         this.officeName = officeName;
         this.levels = levels;
         this.roles = roles;

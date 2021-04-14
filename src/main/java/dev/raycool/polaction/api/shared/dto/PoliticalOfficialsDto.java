@@ -1,4 +1,4 @@
-package dev.raycool.polaction.view.models;
+package dev.raycool.polaction.api.shared.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import dev.raycool.polaction.api.offices.model.response.NormalizedInput;
@@ -7,7 +7,7 @@ import dev.raycool.polaction.api.officials.model.response.PoliticalOfficial;
 
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PoliticalOfficialsResponse {
+public class PoliticalOfficialsDto {
 
     private PoliticalOfficial[] officials;
     private PoliticalOffice[] offices;

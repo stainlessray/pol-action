@@ -1,6 +1,7 @@
 package dev.raycool.polaction.controller;
 
 import dev.raycool.polaction.ws.ui.model.request.UserDetailsRequestModel;
+import dev.raycool.polaction.ws.ui.model.response.UserRest;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,8 +14,8 @@ public class UserController {
     }
 
     @PostMapping
-    public String createUser(@RequestBody UserDetailsRequestModel userDetails) {
-        return "createUser method called";
+    public UserRest createUser(@RequestBody UserDetailsRequestModel userDetails) {
+        return null;
     }
 
     @PutMapping

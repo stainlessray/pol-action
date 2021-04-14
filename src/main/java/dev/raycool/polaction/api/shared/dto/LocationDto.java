@@ -1,30 +1,30 @@
-package dev.raycool.polaction.view.models;
+package dev.raycool.polaction.api.shared.dto;
 
 import dev.raycool.polaction.api.offices.model.response.NormalizedInput;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Location {
+public class LocationDto {
     private NormalizedInput searchLocation;
     private int countOfOffices;
     private int countOfOfficials;
-    private static List<PublicOffice> publicOffices = new ArrayList<>();
+    private static List<PublicOfficeDto> publicOfficeDtos = new ArrayList<>();
 
 
-    public Location() {
+    public LocationDto() {
     }
 
-    public Location(NormalizedInput searchLocation, List<PublicOffice> publicOffices) {
+    public LocationDto(NormalizedInput searchLocation, List<PublicOfficeDto> publicOfficeDtos) {
         this.searchLocation = searchLocation;
-        this.publicOffices = publicOffices;
+        this.publicOfficeDtos = publicOfficeDtos;
     }
 
     public void clearAll() {
         searchLocation = null;
         countOfOffices = 0;
         countOfOfficials = 0;
-        publicOffices.clear();
+        publicOfficeDtos.clear();
     }
 
     public Integer getCountOfOffices() {
@@ -43,12 +43,12 @@ public class Location {
         this.countOfOfficials = countOfOfficials;
     }
 
-    public List<PublicOffice> getPublicOffices() {
-        return this.publicOffices;
+    public List<PublicOfficeDto> getPublicOffices() {
+        return this.publicOfficeDtos;
     }
 
-    public void setPublicOffices(List<PublicOffice> publicOffices) {
-        this.publicOffices = publicOffices;
+    public void setPublicOffices(List<PublicOfficeDto> publicOfficeDtos) {
+        this.publicOfficeDtos = publicOfficeDtos;
     }
 
     public NormalizedInput getSearchLocation() {
@@ -59,16 +59,16 @@ public class Location {
         this.searchLocation = searchLocation;
     }
 
-    public List<PublicOffice> getOffices() {
-        return publicOffices;
+    public List<PublicOfficeDto> getOffices() {
+        return publicOfficeDtos;
     }
 
-    public void setOffices(List<PublicOffice> publicOfficeMembers) {
-        this.publicOffices = publicOfficeMembers;
+    public void setOffices(List<PublicOfficeDto> publicOfficeDtoMembers) {
+        this.publicOfficeDtos = publicOfficeDtoMembers;
     }
 
-    public void addOffice(PublicOffice publicOffice) {
-        this.publicOffices.add(publicOffice);
+    public void addOffice(PublicOfficeDto publicOfficeDto) {
+        this.publicOfficeDtos.add(publicOfficeDto);
     }
 
     @Override
