@@ -1,24 +1,25 @@
-package dev.raycool.polaction.officialsresponse;
+package dev.raycool.polaction.api.offices.model.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Url {
-    private String url;
+public class Level {
+    private String level;
 
-    public Url(String url) {
-        this.url = url;
+
+    public Level() {
     }
 
-    public Url() {
+    public Level(String level) {
+        this.level = level;
     }
 
-    public String getUrl() {
-        return url;
+    public String getLevel() {
+        return level;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setLevel(String level) {
+        this.level = level;
     }
 
     @Override

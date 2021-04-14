@@ -1,9 +1,9 @@
-package dev.raycool.polaction.model;
+package dev.raycool.polaction.view.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import dev.raycool.polaction.officesresponse.NormalizedInput;
-import dev.raycool.polaction.officesresponse.PoliticalOffice;
-import dev.raycool.polaction.officialsresponse.PoliticalOfficial;
+import dev.raycool.polaction.api.offices.model.response.NormalizedInput;
+import dev.raycool.polaction.api.offices.model.response.PoliticalOffice;
+import dev.raycool.polaction.api.officials.model.response.PoliticalOfficial;
 
 
 @JsonIgnoreProperties(ignoreUnknown = true)

@@ -1,33 +1,25 @@
-package dev.raycool.polaction.officialsresponse;
+package dev.raycool.polaction.api.offices.model.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Channel {
-    private String type;
-    private String id;
+public class Role {
+    private String role;
 
-    public Channel() {
+    public Role() {
     }
 
-    public String getType() {
-        return type;
+    public Role(String role) {
+        this.role = role;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public String getRole() {
+        return role;
     }
 
-    public String getId() {
-        return id;
+    public void setRole(String role) {
+        this.role = role;
     }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
 
     @Override
     public String toString() {

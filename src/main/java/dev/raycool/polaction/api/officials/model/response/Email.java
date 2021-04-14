@@ -1,25 +1,26 @@
-package dev.raycool.polaction.officesresponse;
+package dev.raycool.polaction.api.officials.model.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Level {
-    private String level;
+public class Email {
+    private String email;
 
-
-    public Level() {
+    public Email() {
     }
 
-    public Level(String level) {
-        this.level = level;
+    public Email(String email) {
+        this.email = email;
     }
 
-    public String getLevel() {
-        return level;
+    public String getEmail() {
+        return email;
     }
 
-    public void setLevel(String level) {
-        this.level = level;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override

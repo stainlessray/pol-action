@@ -1,8 +1,8 @@
-package dev.raycool.polaction.model;
+package dev.raycool.polaction.view.models;
 
-import dev.raycool.polaction.officesresponse.Level;
-import dev.raycool.polaction.officesresponse.Role;
-import dev.raycool.polaction.officialsresponse.PoliticalOfficial;
+import dev.raycool.polaction.api.offices.model.response.Level;
+import dev.raycool.polaction.api.offices.model.response.Role;
+import dev.raycool.polaction.api.officials.model.response.PoliticalOfficial;
 
 import java.util.ArrayList;
 import java.util.List;

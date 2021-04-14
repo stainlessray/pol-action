@@ -1,6 +1,6 @@
-package dev.raycool.polaction.model;
+package dev.raycool.polaction.view.models;
 
-import dev.raycool.polaction.officesresponse.NormalizedInput;
+import dev.raycool.polaction.api.offices.model.response.NormalizedInput;
 
 import java.util.ArrayList;
 import java.util.List;

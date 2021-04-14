@@ -1,12 +1,12 @@
 package dev.raycool.polaction.controller;
 
 import dev.raycool.polaction.PolActionApplication;
-import dev.raycool.polaction.model.Location;
-import dev.raycool.polaction.model.PoliticalOfficialsResponse;
-import dev.raycool.polaction.model.PublicOffice;
-import dev.raycool.polaction.officesresponse.NormalizedInput;
-import dev.raycool.polaction.officesresponse.PoliticalOffice;
-import dev.raycool.polaction.officialsresponse.PoliticalOfficial;
+import dev.raycool.polaction.view.models.Location;
+import dev.raycool.polaction.view.models.PoliticalOfficialsResponse;
+import dev.raycool.polaction.view.models.PublicOffice;
+import dev.raycool.polaction.api.offices.model.response.NormalizedInput;
+import dev.raycool.polaction.api.offices.model.response.PoliticalOffice;
+import dev.raycool.polaction.api.officials.model.response.PoliticalOfficial;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -51,7 +50,7 @@ public class GoogleCivicApiController {
      * @return model to template
      * @throws HttpClientErrorException invalid search results throw exception
      */
-    @CrossOrigin(origins = "http://polaction-env.eba-e2zxwwme.us-east-2.elasticbeanstalk.com:5000")
+    //@CrossOrigin(origins = "http://polaction-env.eba-e2zxwwme.us-east-2.elasticbeanstalk.com:5000")
     @RequestMapping(value = "/api", method = RequestMethod.GET)
     public String getData(@RequestParam String lookup, Model model) throws HttpClientErrorException {
 

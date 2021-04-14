@@ -1,27 +1,24 @@
-package dev.raycool.polaction.officialsresponse;
+package dev.raycool.polaction.api.officials.model.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Phone {
-    private String phone;
+public class Url {
+    private String url;
 
-
-    public Phone() {
+    public Url(String url) {
+        this.url = url;
     }
 
-    public Phone(String phone) {
-        this.phone = phone;
+    public Url() {
     }
 
-    public String getPhone() {
-        return phone;
+    public String getUrl() {
+        return url;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     @Override

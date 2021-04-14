@@ -1,27 +1,33 @@
-package dev.raycool.polaction.officialsresponse;
+package dev.raycool.polaction.api.officials.model.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Email {
-    private String email;
+public class Channel {
+    private String type;
+    private String id;
 
-    public Email() {
+    public Channel() {
     }
 
-    public Email(String email) {
-        this.email = email;
+    public String getType() {
+        return type;
     }
 
-    public String getEmail() {
-        return email;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public String getId() {
+        return id;
     }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
 
     @Override
     public String toString() {
