@@ -1,4 +1,4 @@
-package dev.raycool.polaction.controller;
+package dev.raycool.polaction.controllers;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

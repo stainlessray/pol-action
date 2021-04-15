@@ -1,4 +1,4 @@
-package dev.raycool.polaction.controller;
+package dev.raycool.polaction.controllers;
 
 import dev.raycool.polaction.PolActionApplication;
 import dev.raycool.polaction.api.shared.dto.LocationDto;

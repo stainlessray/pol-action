@@ -26,10 +26,11 @@ public class UserEntity implements Serializable {
 
     @Column(nullable = false)
     private String encryptedPassword;
+
     private String emailVerificationToken;
 
-    @Column(nullable = false, columnDefinition = "boolean default false")
-    private Boolean emailVerificationTokenStatus;
+    @Column(nullable = false)
+    private Boolean emailVerificationTokenStatus = false;
 
 
     public long getId() {
