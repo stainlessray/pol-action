@@ -1,8 +1,8 @@
-package dev.raycool.polaction.api.shared.dto;
+package dev.raycool.polaction.external.api.shared.dto;
 
-import dev.raycool.polaction.api.offices.model.response.Level;
-import dev.raycool.polaction.api.offices.model.response.Role;
-import dev.raycool.polaction.api.officials.model.response.PoliticalOfficial;
+import dev.raycool.polaction.external.api.offices.model.response.Level;
+import dev.raycool.polaction.external.api.offices.model.response.Role;
+import dev.raycool.polaction.external.api.officials.model.response.PoliticalOfficial;
 
 import java.util.ArrayList;
 import java.util.List;

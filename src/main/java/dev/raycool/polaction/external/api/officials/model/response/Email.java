@@ -1,24 +1,26 @@
-package dev.raycool.polaction.api.offices.model.response;
+package dev.raycool.polaction.external.api.officials.model.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Role {
-    private String role;
+public class Email {
+    private String email;
 
-    public Role() {
+    public Email() {
     }
 
-    public Role(String role) {
-        this.role = role;
+    public Email(String email) {
+        this.email = email;
     }
 
-    public String getRole() {
-        return role;
+    public String getEmail() {
+        return email;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override

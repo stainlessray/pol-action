@@ -1,6 +1,6 @@
-package dev.raycool.polaction.api.shared.dto;
+package dev.raycool.polaction.external.api.shared.dto;
 
-import dev.raycool.polaction.api.offices.model.response.NormalizedInput;
+import dev.raycool.polaction.external.api.offices.model.response.NormalizedInput;
 
 import java.util.ArrayList;
 import java.util.List;

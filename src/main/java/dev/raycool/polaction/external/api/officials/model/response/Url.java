@@ -1,24 +1,24 @@
-package dev.raycool.polaction.api.offices.model.response;
+package dev.raycool.polaction.external.api.officials.model.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class OfficialIndex {
-    private Integer officialIndex;
+public class Url {
+    private String url;
 
-    public OfficialIndex() {
+    public Url(String url) {
+        this.url = url;
     }
 
-    public OfficialIndex(Integer officialIndex) {
-        this.officialIndex = officialIndex;
+    public Url() {
     }
 
-    public Integer getOfficialIndex() {
-        return officialIndex;
+    public String getUrl() {
+        return url;
     }
 
-    public void setOfficialIndex(Integer officialIndex) {
-        this.officialIndex = officialIndex;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     @Override

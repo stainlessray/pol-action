@@ -1,12 +1,12 @@
 package dev.raycool.polaction.controllers;
 
 import dev.raycool.polaction.PolActionApplication;
-import dev.raycool.polaction.api.shared.dto.LocationDto;
-import dev.raycool.polaction.api.shared.dto.PoliticalOfficialsDto;
-import dev.raycool.polaction.api.shared.dto.PublicOfficeDto;
-import dev.raycool.polaction.api.offices.model.response.NormalizedInput;
-import dev.raycool.polaction.api.offices.model.response.PoliticalOffice;
-import dev.raycool.polaction.api.officials.model.response.PoliticalOfficial;
+import dev.raycool.polaction.external.api.shared.dto.LocationDto;
+import dev.raycool.polaction.external.api.shared.dto.PoliticalOfficialsDto;
+import dev.raycool.polaction.external.api.shared.dto.PublicOfficeDto;
+import dev.raycool.polaction.external.api.offices.model.response.NormalizedInput;
+import dev.raycool.polaction.external.api.offices.model.response.PoliticalOffice;
+import dev.raycool.polaction.external.api.officials.model.response.PoliticalOfficial;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,21 +52,37 @@ public class GoogleCivicApiController {
      */
     //@CrossOrigin(origins = "http://polaction-env.eba-e2zxwwme.us-east-2.elasticbeanstalk.com:5000")
     @RequestMapping(value = "/api", method = RequestMethod.GET)
-    public String getData(@RequestParam String lookup, Model model) throws HttpClientErrorException {
+    public String getData(
+            @RequestParam(value = "lookup", required = true) String lookup,
+            @RequestParam(value = "format", required = false) String format,
+            Model model
+    ) throws HttpClientErrorException {
 
-        if ( sessionSearchHistory == null ) {
-            sessionSearchHistory.add(lookup);
-        }
-        if ( sessionSearchHistory.contains(lookup) ) {
-            createModel(model);
-            logger.info("outputting to page");
-            return "publicresponse";
-        } else {
-            sessionSearchHistory.add(lookup);
-            logger.info("making API request");
+        //testing
+        if (format != null) {
+            logger.info("format parameter passed");
             consumeGoogleCivicApi(lookup);
-            createModel(model);
-            logger.info("outputting to page");
+            model.addAttribute("offices", locationDto.getOffices());
+
+            return "jsonoutput";
+        }
+        if (format == null) {
+
+            if (sessionSearchHistory == null) {
+                sessionSearchHistory.add(lookup);
+            }
+            if (sessionSearchHistory.contains(lookup)) {
+                createHtmlModel(model);
+                logger.info("outputting to page");
+                return "publicresponse";
+            } else {
+                sessionSearchHistory.add(lookup);
+                logger.info("making API request");
+                consumeGoogleCivicApi(lookup);
+                createHtmlModel(model);
+                logger.info("outputting to page");
+            }
+
         }
         return "publicresponse";
     }
@@ -77,7 +93,7 @@ public class GoogleCivicApiController {
         return "redirect:/";
     }
 
-    public Model createModel(Model model) {
+    public Model createHtmlModel(Model model) {
         locationData = this.locationDto.getSearchLocation().toString();
         locationAggregated = sessionSearchHistory.toString().replace("[", "").replace("]", "");
         List<PublicOfficeDto> offices = this.locationDto.getOffices();
@@ -86,6 +102,12 @@ public class GoogleCivicApiController {
         model.addAttribute("locationAggregated", locationAggregated);
         model.addAttribute("offices", offices);
         return model;
+    }
+
+    public String createJsonModel() {
+        String offices = this.locationDto.getOffices().toString();
+
+        return offices;
     }
 
     public void startNewSession() {

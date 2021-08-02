@@ -1,9 +1,9 @@
-package dev.raycool.polaction.api.shared.dto;
+package dev.raycool.polaction.external.api.shared.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import dev.raycool.polaction.api.offices.model.response.NormalizedInput;
-import dev.raycool.polaction.api.offices.model.response.PoliticalOffice;
-import dev.raycool.polaction.api.officials.model.response.PoliticalOfficial;
+import dev.raycool.polaction.external.api.offices.model.response.NormalizedInput;
+import dev.raycool.polaction.external.api.offices.model.response.PoliticalOffice;
+import dev.raycool.polaction.external.api.officials.model.response.PoliticalOfficial;
 
 
 @JsonIgnoreProperties(ignoreUnknown = true)
