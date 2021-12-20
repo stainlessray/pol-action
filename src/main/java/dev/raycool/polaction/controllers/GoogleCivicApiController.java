@@ -1,12 +1,12 @@
 package dev.raycool.polaction.controllers;
 
 import dev.raycool.polaction.PolActionApplication;
-import dev.raycool.polaction.external.api.shared.dto.LocationDto;
-import dev.raycool.polaction.external.api.shared.dto.PoliticalOfficialsDto;
-import dev.raycool.polaction.external.api.shared.dto.PublicOfficeDto;
-import dev.raycool.polaction.external.api.offices.model.response.NormalizedInput;
-import dev.raycool.polaction.external.api.offices.model.response.PoliticalOffice;
-import dev.raycool.polaction.external.api.officials.model.response.PoliticalOfficial;
+import dev.raycool.polaction.google.api.shared.dto.LocationDto;
+import dev.raycool.polaction.google.api.shared.dto.PoliticalOfficialsDto;
+import dev.raycool.polaction.google.api.shared.dto.PublicOfficeDto;
+import dev.raycool.polaction.google.api.offices.model.response.NormalizedInput;
+import dev.raycool.polaction.google.api.offices.model.response.PoliticalOffice;
+import dev.raycool.polaction.google.api.officials.model.response.PoliticalOfficial;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
